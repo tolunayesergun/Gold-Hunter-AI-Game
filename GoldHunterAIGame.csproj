@@ -59,6 +59,7 @@
       <DependentUpon>Interface.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Cordinant.cs" />
+    <Compile Include="Models\Gold.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Game.resx">
@@ -75,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -88,6 +90,54 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gold.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SecretGold.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\miner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dirt.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gold5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gold10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gold15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gold20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GameBg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\istockphoto-837157546-612x612.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\coal-mine-landscape-coal-mine-landscape-illustration-123952197.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\coal-mine-landscape_1308-17082.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Secret5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Secret10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Secret15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Secret20.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
