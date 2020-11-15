@@ -63,16 +63,6 @@ namespace GoldHunterAIGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap coal_mine_landscape_1308_17082 {
-            get {
-                object obj = ResourceManager.GetObject("coal-mine-landscape_1308-17082", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Dirt {
             get {
                 object obj = ResourceManager.GetObject("Dirt", resourceCulture);
@@ -83,9 +73,9 @@ namespace GoldHunterAIGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Gold {
+        internal static System.Drawing.Bitmap GameBG1 {
             get {
-                object obj = ResourceManager.GetObject("Gold", resourceCulture);
+                object obj = ResourceManager.GetObject("GameBG1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +123,29 @@ namespace GoldHunterAIGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap goldCoin {
+            get {
+                object obj = ResourceManager.GetObject("goldCoin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap miner {
             get {
                 object obj = ResourceManager.GetObject("miner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scoreTable {
+            get {
+                object obj = ResourceManager.GetObject("scoreTable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
