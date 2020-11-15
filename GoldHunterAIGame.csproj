@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Models\Cordinant.cs" />
     <Compile Include="Models\Gold.cs" />
+    <Compile Include="Models\Players.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Game.resx">

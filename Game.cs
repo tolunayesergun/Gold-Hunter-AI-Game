@@ -14,6 +14,7 @@ namespace GoldHunterAIGame
             InitializeComponent();
         }
 
+        private Random rnd = new Random();
         public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
         public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
         public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
@@ -26,13 +27,68 @@ namespace GoldHunterAIGame
 
         public static string[] playerTurnList = { "A", "B", "C", "D" };  // Oyuncuların sırasını tutan statik Dizi
         public static int[] targetList = { 25, 5, 6, 7 };  // Oyuncuların sonraki hedeflerini tutan statik dizi
-        private static List<Gold> goldList = new List<Gold>();
+        private static List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
 
         private void Game_Load(object sender, EventArgs e)
         {
             CreateBoard();
-            TurnTimer.Start();
+            //TurnTimer.Start();
         }
+
+        #region PlayerMechanics
+
+        private int FindTheClosestGold(Cordinant playerLocation)
+        {
+            int closestLocation = 0;
+            int range = 9999990;
+            List<Gold> tempList = goldList.Where(p => p.isSecret == false && p.isTaken == false).ToList();
+
+            foreach (var item in tempList)
+            {
+                int tempRange = Math.Abs(playerLocation.row - item.goldLocation.row) + Math.Abs(playerLocation.column - item.goldLocation.column);
+                if (tempRange < range)
+                {
+                    range = tempRange;
+                    closestLocation = item.buttonNum;
+                }
+            }
+
+            return closestLocation;
+        }
+
+        private void OpenTheClosestSecretGold(Cordinant playerLocation)
+        {
+            int closestLocation = 0;
+            int range = 9999990;
+         
+
+            for (int i = 0; i < 2; i++)
+            {
+                List<Gold> tempList = goldList.Where(p => p.isSecret == true).ToList();
+                range = 9999990;
+                foreach (var item in tempList)
+                {
+                   
+                    int tempRange = Math.Abs(playerLocation.row - item.goldLocation.row) + Math.Abs(playerLocation.column - item.goldLocation.column);
+                    if (tempRange < range)
+                    {
+                        range = tempRange;
+                        closestLocation = item.buttonNum;
+                    }
+                }
+                
+                Gold tempGold = goldList.Where(p => p.buttonNum == closestLocation).FirstOrDefault();
+                if(tempGold!=null)
+                { 
+                tempGold.isSecret = false;
+                    string img = "Secret" + tempGold.value.ToString();
+                    object obj = Properties.Resources.ResourceManager.GetObject(img);
+                    (pnlBoard.Controls["btn" + closestLocation.ToString()] as Button).BackgroundImage = (Image)obj;
+                }
+            }
+        }
+
+        #endregion PlayerMechanics
 
         #region GlobalFunctions
 
@@ -145,15 +201,11 @@ namespace GoldHunterAIGame
         #endregion GameDynamics
 
         #region InterfaceFunctions
-        Random rnd = new Random();
 
         public int getRandomValue()
         {
-          
             int nextValue;
-
             nextValue = 5 * rnd.Next(5 / 5, 20 / 5);
-
             return nextValue;
         }
 
@@ -182,28 +234,13 @@ namespace GoldHunterAIGame
             for (int i = 0; i < areaTotalSize; i++)
             {
                 Bitmap tempImage = new Bitmap(Properties.Resources.Dirt);
-                Gold tempGold = goldList.Where(p => p.buttonNum == +i).SingleOrDefault();
+                Gold tempGold = goldList.Where(p => p.buttonNum == i).SingleOrDefault();
 
                 if (tempGold != null)
                 {
-                    switch (tempGold.value)
-                    {
-                        case 5:
-                            if (!tempGold.isSecret) tempImage = Properties.Resources.Gold5;
-                            break;
-
-                        case 10:
-                            if (!tempGold.isSecret) tempImage = Properties.Resources.Gold10;
-                            break;
-                   
-                        case 15:
-                            if (!tempGold.isSecret) tempImage = Properties.Resources.Gold15;
-                            break;
-
-                        case 20:
-                            if (!tempGold.isSecret) tempImage = Properties.Resources.Gold20;
-                            break;
-                    }
+                    string img = "Gold" + tempGold.value.ToString();
+                    object obj = Properties.Resources.ResourceManager.GetObject(img);
+                    tempImage = (Bitmap)obj;           
                 }
 
                 Button btn = new Button
@@ -278,7 +315,7 @@ namespace GoldHunterAIGame
                     if (!(goldSpawns.Contains(nextNumber)))
                     {
                         goldSpawns[goldIterator] = nextNumber;
-                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = false, pozition = FindCordinant(nextNumber + 1), button = "btn" + (nextNumber + 1).ToString(), value = getRandomValue(), buttonNum = nextNumber });
+                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = false, goldLocation = FindCordinant(nextNumber + 1), button = "btn" + (nextNumber + 1).ToString(), value = getRandomValue(), buttonNum = nextNumber+1, isTaken = false });
                         spawnedTotalGold++;
                         goldIterator++;
                     }
@@ -295,7 +332,7 @@ namespace GoldHunterAIGame
                     if (!(goldSpawns.Contains(nextNumber)) && !(secretGoldSpawns.Contains(nextNumber)))
                     {
                         secretGoldSpawns[goldIterator] = nextNumber;
-                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = true, pozition = FindCordinant(nextNumber + 1), button = "btn" + (nextNumber + 1).ToString(), value = getRandomValue(), buttonNum = nextNumber });
+                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = true, goldLocation = FindCordinant(nextNumber + 1), button = "btn" + (nextNumber + 1).ToString(), value = getRandomValue(), buttonNum = nextNumber+1, isTaken = false });
                         spawnedTotalGold++;
                         goldIterator++;
                     }
