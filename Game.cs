@@ -38,8 +38,6 @@ namespace GoldHunterAIGame
             CreateGame();
             OnLoadEvents();
             TurnTimer.Start();
-
-         
         }
 
 
@@ -200,11 +198,16 @@ namespace GoldHunterAIGame
                 Gold takenGold = goldList.Where(p => p.buttonNum == player.target).SingleOrDefault();
                 takenGold.isTaken = true;
                 (pnlBoard.Controls[takenGold.button] as Button).BackgroundImage = Properties.Resources.Dirt;
-                player.target = 0;
+                List<Player> playerLoseTargetList = playerList.Where(p => p.target == player.target).ToList();
+                foreach (var item in playerLoseTargetList)
+                {
+                    item.target = 0;
+                }
                 player.playerGold += takenGold.value;
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
                 MoveTimer.Stop();
                 playerTurn++;
+           
             }
         } // Sonraki hamleyi gerçekleştiren fonksiyon
 
