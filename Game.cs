@@ -19,7 +19,7 @@ namespace GoldHunterAIGame
         public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
         public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
         public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
-        public static int turnMoveMAX = 3;  // Bir oyuncunun max hamle sayısını tutan statik değişken
+        public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
         public static int playerAGold = 200;
         public static int playerBGold = 200;
         public static int playerCGold = 200;
@@ -40,12 +40,51 @@ namespace GoldHunterAIGame
             TurnTimer.Start();
         }
 
-
         #region PlayerMechanics
 
         private void FindNextTarget(Player player)
         {
-            player.target = FindTheClosestGold(player.playerLocation);
+            switch (player.playerdID)
+            {
+                case 1:
+                    player.target = FindTheClosestGold(player.playerLocation);
+                    break;
+
+                case 2:
+                    player.target = FindTheMostProfitableGold(player.playerLocation);
+                    break;
+
+                case 3:
+                    if (player.playerdID == 3) OpenTheClosestSecretGold(player.playerLocation);
+                    player.target = FindTheMostProfitableGold(player.playerLocation);
+                    break;
+
+                case 4:
+                    player.target = FindTheMostProfitableGold(player.playerLocation);
+                    break;
+
+            }
+        }
+
+        private int FindTheMostProfitableGold(Cordinant playerLocation)
+        {
+            int MostProfitableLocation = 0;
+            int totalProfit = -9999999;
+
+            List<Gold> tempList = goldList.Where(p => p.isSecret == false && p.isTaken == false).ToList();
+
+            foreach (var item in tempList)
+            {
+                int tempRange = Math.Abs(playerLocation.row - item.goldLocation.row) + Math.Abs(playerLocation.column - item.goldLocation.column);
+                int tempTotalproFit = item.value - Convert.ToInt32(Math.Ceiling((double)tempRange / turnMoveMAX) * turnCost[playerTurn - 1]);
+                if (tempTotalproFit > totalProfit)
+                {
+                    totalProfit = tempTotalproFit;
+                    MostProfitableLocation = item.buttonNum;
+                }
+            }
+
+            return MostProfitableLocation;
         }
 
         private int FindTheClosestGold(Cordinant playerLocation)
@@ -129,31 +168,6 @@ namespace GoldHunterAIGame
 
         #region GameDynamics
 
-        private void TurnTimer_Tick(object sender, EventArgs e) 
-        {
-            if (MoveTimer.Enabled == false)
-            {
-                if (playerTurn > 4) playerTurn = 1;
-                turnMoveTEMP = 1;
-                Player player = playerList.Where(p => p.playerdID == playerTurn).SingleOrDefault();
-              
-            
-                if (player.target == 0)
-                {
-                    FindNextTarget(player);
-                    player.playerGold -= findTargetCost[playerTurn - 1];
-                }
-            
-                if (player.target != 0)
-                {
-                    player.playerGold -= turnCost[playerTurn - 1];
-                    (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
-                    MoveTimer.Start();
-                }
-                //  NextMove(playerTurnList[playerTurn], targetList[playerTurn]);             
-            }
-        }   // Oyun sırasını hareketlendiren timer
-
         private void moveTo()
         {
             Player player = playerList.Where(p => p.playerdID == playerTurn).SingleOrDefault();
@@ -207,9 +221,36 @@ namespace GoldHunterAIGame
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
                 MoveTimer.Stop();
                 playerTurn++;
-           
             }
         } // Sonraki hamleyi gerçekleştiren fonksiyon
+
+        private void TurnTimer_Tick(object sender, EventArgs e)
+        {
+            if (MoveTimer.Enabled == false)
+            {
+                if (playerTurn > 4) playerTurn = 1;
+                turnMoveTEMP = 1;
+                Player player = playerList.Where(p => p.playerdID == playerTurn).SingleOrDefault();
+         
+                if (player.target != 0 && player.playerGold>0)
+                {               
+                    player.playerGold -= turnCost[playerTurn - 1];
+                    MoveTimer.Start();
+                }
+                else if(player.playerGold > 0)
+                {
+                    FindNextTarget(player);
+                    player.playerGold -= findTargetCost[playerTurn - 1];
+                }
+                else
+                {
+                    playerTurn++;
+                }
+               
+                (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
+                   
+            }
+        }   // Oyun sırasını hareketlendiren timer
 
         private void MoveA_Tick(object sender, EventArgs e)
         {
@@ -218,11 +259,11 @@ namespace GoldHunterAIGame
                 MoveTimer.Stop();
                 playerTurn++;
             }
-            else {
+            else
+            {
                 moveTo();
                 turnMoveTEMP++;
             }
-          
         }  // Oyuncu hareketlerini sürdüren timer
 
         #endregion GameDynamics
@@ -261,9 +302,9 @@ namespace GoldHunterAIGame
             for (int i = 0; i < areaTotalSize; i++)
             {
                 Bitmap tempImage = new Bitmap(Properties.Resources.Dirt);
-                Gold tempGold = goldList.Where(p => (p.buttonNum-1) == i).SingleOrDefault();
+                Gold tempGold = goldList.Where(p => (p.buttonNum - 1) == i).SingleOrDefault();
 
-                if (tempGold != null && tempGold.isSecret==false)
+                if (tempGold != null && tempGold.isSecret == false)
                 {
                     string img = "Gold" + tempGold.value.ToString();
                     object obj = Properties.Resources.ResourceManager.GetObject(img);
@@ -272,10 +313,10 @@ namespace GoldHunterAIGame
 
                 Button btn = new Button
                 {
-                    Font = new System.Drawing.Font("Microsoft Sans Serif", (float)cellHeight/11f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162))),
+                    Font = new System.Drawing.Font("Microsoft Sans Serif", (float)cellHeight / 11f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162))),
                     Size = new System.Drawing.Size(cellWidth, cellHeight),
                     TextAlign = System.Drawing.ContentAlignment.BottomLeft,
-                BackColor = Color.White,
+                    BackColor = Color.White,
                     Text = (i + 1).ToString(),
                     Name = "btn" + (i + 1),
                     BackgroundImageLayout = ImageLayout.Stretch,
@@ -345,12 +386,12 @@ namespace GoldHunterAIGame
             while (goldIterator < totalGoldCount)
             {
                 int nextNumber = rnd.Next(areaTotalSize);
-                if (nextNumber != playerAFirstSpawn - 1 && nextNumber != playerBFirstSpawn - 1 && nextNumber != playerCFirstSpawn - 1 && nextNumber != playerDFirstSpawn - 1)
+                if (nextNumber != playerAFirstSpawn && nextNumber != playerBFirstSpawn && nextNumber != playerCFirstSpawn && nextNumber != playerDFirstSpawn)
                 {
                     if (!(goldSpawns.Contains(nextNumber)))
                     {
                         goldSpawns[goldIterator] = nextNumber;
-                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = false, goldLocation = FindCordinant(nextNumber ), button = "btn" + (nextNumber ).ToString(), value = getRandomValue(), buttonNum = nextNumber , isTaken = false });
+                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = false, goldLocation = FindCordinant(nextNumber), button = "btn" + (nextNumber).ToString(), value = getRandomValue(), buttonNum = nextNumber, isTaken = false });
                         spawnedTotalGold++;
                         goldIterator++;
                     }
@@ -362,12 +403,12 @@ namespace GoldHunterAIGame
             while (goldIterator < totalSecretGoldCount)
             {
                 int nextNumber = rnd.Next(areaTotalSize);
-                if (nextNumber != playerAFirstSpawn - 1 && nextNumber != playerBFirstSpawn - 1 && nextNumber != playerCFirstSpawn - 1 && nextNumber != playerDFirstSpawn - 1)
+                if (nextNumber != playerAFirstSpawn && nextNumber != playerBFirstSpawn && nextNumber != playerCFirstSpawn && nextNumber != playerDFirstSpawn)
                 {
                     if (!(goldSpawns.Contains(nextNumber)) && !(secretGoldSpawns.Contains(nextNumber)))
                     {
                         secretGoldSpawns[goldIterator] = nextNumber;
-                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = true, goldLocation = FindCordinant(nextNumber ), button = "btn" + (nextNumber ).ToString(), value = getRandomValue(), buttonNum = nextNumber , isTaken = false });
+                        goldList.Add(new Gold { goldID = spawnedTotalGold, isSecret = true, goldLocation = FindCordinant(nextNumber), button = "btn" + (nextNumber).ToString(), value = getRandomValue(), buttonNum = nextNumber, isTaken = false });
                         spawnedTotalGold++;
                         goldIterator++;
                     }
@@ -402,6 +443,5 @@ namespace GoldHunterAIGame
         } // Controllerin düzenlemeleri yapılıyor
 
         #endregion InterfaceFunctions
-
     }
 }
