@@ -15,8 +15,8 @@ namespace GoldHunterAIGame
         }
 
         private readonly Random rnd = new Random();
-        public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
-        public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
+        public static int areaXSize = 20;   // Oyunda ki bir satırda ki kare sayısı
+        public static int areaYSize = 20;   // Oyunda ki bir stunda ki kare sayısı
         public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
         public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
         public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
@@ -26,12 +26,13 @@ namespace GoldHunterAIGame
         public static int playerDGold = 200;
         public static int[] turnCost = { 5, 5, 5, 5 };
         public static int[] findTargetCost = { 5, 10, 15, 20 };
+        public static int gameOverCount = 0;
 
         public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
         public static int playerTurn = 1;  // Sıranın hangi oyuncuda olduğunu tutuyor.
 
-        private List<Player> playerList = new List<Player>();
-        private List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
+        private readonly List<Player> playerList = new List<Player>();
+        private readonly List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
 
         private void Game_Load(object sender, EventArgs e)
         {
@@ -55,14 +56,13 @@ namespace GoldHunterAIGame
                     break;
 
                 case 3:
-                    if (player.playerdID == 3) OpenTheClosestSecretGold(player.playerLocation);
+                    OpenTheClosestSecretGold(player.playerLocation);
                     player.target = FindTheMostProfitableGold(player.playerLocation);
                     break;
 
                 case 4:
                     player.target = FindTheMostProfitableGold(player.playerLocation);
                     break;
-
             }
         }
 
@@ -76,7 +76,7 @@ namespace GoldHunterAIGame
             foreach (var item in tempList)
             {
                 int tempRange = Math.Abs(playerLocation.row - item.goldLocation.row) + Math.Abs(playerLocation.column - item.goldLocation.column);
-                int tempTotalproFit = item.value - Convert.ToInt32(Math.Ceiling((double)tempRange / turnMoveMAX) * turnCost[playerTurn - 1]);
+                int tempTotalproFit = item.value - Convert.ToInt32(Math.Ceiling((double)tempRange / (turnMoveMAX - 1)) * turnCost[playerTurn - 1]);
                 if (tempTotalproFit > totalProfit)
                 {
                     totalProfit = tempTotalproFit;
@@ -138,13 +138,14 @@ namespace GoldHunterAIGame
 
         #endregion PlayerMechanics
 
+
         #region GlobalFunctions
 
-        private int FindButtonNumber(Cordinant map)
-        {
-            int result = ((map.row - 1) * areaXSize + map.column);
-            return result;
-        }   // satır ve stun bilgisi verilen butonun Numarasını veriyor.
+        //private int FindButtonNumber(Cordinant map)
+        //{
+        //    int result = ((map.row - 1) * areaXSize + map.column);
+        //    return result;
+        //}   // satır ve stun bilgisi verilen butonun Numarasını veriyor.
 
         private Cordinant FindCordinant(int buttonNumber)
         {
@@ -160,11 +161,12 @@ namespace GoldHunterAIGame
         public int getRandomValue()
         {
             int nextValue;
-            nextValue = 5 * rnd.Next(5 / 5, 20 / 5);
+            nextValue = 5 * rnd.Next(5 / 5, 25 / 5);
             return nextValue;
         }  //Rastegele değer üreten fonksiyon (5-20) arası
 
         #endregion GlobalFunctions
+
 
         #region GameDynamics
 
@@ -209,6 +211,9 @@ namespace GoldHunterAIGame
 
             if (player.buttonNum == player.target)
             {
+                playerTurn++;
+                MoveTimer.Stop();
+
                 Gold takenGold = goldList.Where(p => p.buttonNum == player.target).SingleOrDefault();
                 takenGold.isTaken = true;
                 (pnlBoard.Controls[takenGold.button] as Button).BackgroundImage = Properties.Resources.Dirt;
@@ -219,8 +224,6 @@ namespace GoldHunterAIGame
                 }
                 player.playerGold += takenGold.value;
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
-                MoveTimer.Stop();
-                playerTurn++;
             }
         } // Sonraki hamleyi gerçekleştiren fonksiyon
 
@@ -231,24 +234,36 @@ namespace GoldHunterAIGame
                 if (playerTurn > 4) playerTurn = 1;
                 turnMoveTEMP = 1;
                 Player player = playerList.Where(p => p.playerdID == playerTurn).SingleOrDefault();
-         
-                if (player.target != 0 && player.playerGold>0)
-                {               
-                    player.playerGold -= turnCost[playerTurn - 1];
-                    MoveTimer.Start();
-                }
-                else if(player.playerGold > 0)
+
+                int remainingGold = goldList.Where(p => p.isTaken == false && p.isSecret == false).Count();
+                int remainingSecretGold = goldList.Where(p => p.isTaken == false).Count();
+                Player playerC = playerList.Where(p => p.playerdID == 3).Single();
+
+                if (remainingGold == 0 && playerC.playerGold < findTargetCost[2] || remainingGold == 0 && remainingSecretGold == 0)
                 {
-                    FindNextTarget(player);
-                    player.playerGold -= findTargetCost[playerTurn - 1];
+                    TurnTimer.Stop();
+                    Player winnerPlayer = playerList.Where(t => t.playerGold == playerList.Select(p => p.playerGold).Max()).FirstOrDefault();
+                    MessageBox.Show("Kazanan Player " + winnerPlayer.playerName);
                 }
                 else
                 {
-                    playerTurn++;
-                }
-               
+                    if (player.target != 0 && player.playerGold > turnCost[playerTurn - 1])
+                    {
+                        player.playerGold -= turnCost[playerTurn - 1];
+                        MoveTimer.Start();
+                    }
+                    else if (player.target == 0 && player.playerGold >= findTargetCost[playerTurn - 1])
+                    {
+                        FindNextTarget(player);
+                        if (player.target != 0) player.playerGold -= findTargetCost[playerTurn - 1];
+                    }
+                    else
+                    {
+                        playerTurn++;
+                    }
+
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
-                   
+                }
             }
         }   // Oyun sırasını hareketlendiren timer
 
@@ -256,8 +271,8 @@ namespace GoldHunterAIGame
         {
             if (turnMoveTEMP == turnMoveMAX)
             {
-                MoveTimer.Stop();
                 playerTurn++;
+                MoveTimer.Stop();
             }
             else
             {
@@ -267,6 +282,7 @@ namespace GoldHunterAIGame
         }  // Oyuncu hareketlerini sürdüren timer
 
         #endregion GameDynamics
+
 
         #region InterfaceFunctions
 
@@ -321,7 +337,8 @@ namespace GoldHunterAIGame
                     Name = "btn" + (i + 1),
                     BackgroundImageLayout = ImageLayout.Stretch,
                     BackgroundImage = tempImage,
-                    Enabled = false
+                    Enabled = false,
+                    FlatStyle = System.Windows.Forms.FlatStyle.Popup
                 };
 
                 if (ButtonCount < areaXSize)

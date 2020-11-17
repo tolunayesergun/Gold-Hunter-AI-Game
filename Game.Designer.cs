@@ -31,33 +31,33 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             this.pnlBoard = new System.Windows.Forms.Panel();
+            this.textPlayerCCoin = new System.Windows.Forms.Label();
+            this.textPlayerDCoin = new System.Windows.Forms.Label();
+            this.goldCoin4 = new System.Windows.Forms.PictureBox();
+            this.goldCoin3 = new System.Windows.Forms.PictureBox();
+            this.textPlayerBCoin = new System.Windows.Forms.Label();
+            this.goldCoin2 = new System.Windows.Forms.PictureBox();
+            this.textPlayerACoin = new System.Windows.Forms.Label();
+            this.goldCoin1 = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textPlayerDCoin = new System.Windows.Forms.Label();
-            this.textPlayerCCoin = new System.Windows.Forms.Label();
-            this.textPlayerBCoin = new System.Windows.Forms.Label();
-            this.textPlayerACoin = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.MoveTimer = new System.Windows.Forms.Timer(this.components);
             this.TurnTimer = new System.Windows.Forms.Timer(this.components);
             this.playerD = new System.Windows.Forms.Button();
             this.playerC = new System.Windows.Forms.Button();
             this.playerB = new System.Windows.Forms.Button();
             this.playerA = new System.Windows.Forms.Button();
-            this.goldCoin1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.goldCoin2 = new System.Windows.Forms.PictureBox();
-            this.goldCoin3 = new System.Windows.Forms.PictureBox();
-            this.goldCoin4 = new System.Windows.Forms.PictureBox();
             this.pnlBoard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.goldCoin2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.goldCoin2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBoard
@@ -83,6 +83,94 @@
             this.pnlBoard.Size = new System.Drawing.Size(705, 719);
             this.pnlBoard.TabIndex = 0;
             this.pnlBoard.Resize += new System.EventHandler(this.pnlBoard_Resize);
+            // 
+            // textPlayerCCoin
+            // 
+            this.textPlayerCCoin.AutoSize = true;
+            this.textPlayerCCoin.BackColor = System.Drawing.Color.Transparent;
+            this.textPlayerCCoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textPlayerCCoin.ForeColor = System.Drawing.Color.Gold;
+            this.textPlayerCCoin.Location = new System.Drawing.Point(266, 209);
+            this.textPlayerCCoin.Name = "textPlayerCCoin";
+            this.textPlayerCCoin.Size = new System.Drawing.Size(43, 24);
+            this.textPlayerCCoin.TabIndex = 10;
+            this.textPlayerCCoin.Text = "200";
+            // 
+            // textPlayerDCoin
+            // 
+            this.textPlayerDCoin.AutoSize = true;
+            this.textPlayerDCoin.BackColor = System.Drawing.Color.Transparent;
+            this.textPlayerDCoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textPlayerDCoin.ForeColor = System.Drawing.Color.Gold;
+            this.textPlayerDCoin.Location = new System.Drawing.Point(361, 209);
+            this.textPlayerDCoin.Name = "textPlayerDCoin";
+            this.textPlayerDCoin.Size = new System.Drawing.Size(43, 24);
+            this.textPlayerDCoin.TabIndex = 11;
+            this.textPlayerDCoin.Text = "200";
+            // 
+            // goldCoin4
+            // 
+            this.goldCoin4.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
+            this.goldCoin4.Location = new System.Drawing.Point(331, 205);
+            this.goldCoin4.Name = "goldCoin4";
+            this.goldCoin4.Size = new System.Drawing.Size(35, 29);
+            this.goldCoin4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.goldCoin4.TabIndex = 19;
+            this.goldCoin4.TabStop = false;
+            // 
+            // goldCoin3
+            // 
+            this.goldCoin3.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
+            this.goldCoin3.Location = new System.Drawing.Point(238, 205);
+            this.goldCoin3.Name = "goldCoin3";
+            this.goldCoin3.Size = new System.Drawing.Size(35, 29);
+            this.goldCoin3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.goldCoin3.TabIndex = 18;
+            this.goldCoin3.TabStop = false;
+            // 
+            // textPlayerBCoin
+            // 
+            this.textPlayerBCoin.AutoSize = true;
+            this.textPlayerBCoin.BackColor = System.Drawing.Color.Transparent;
+            this.textPlayerBCoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textPlayerBCoin.ForeColor = System.Drawing.Color.Gold;
+            this.textPlayerBCoin.Location = new System.Drawing.Point(170, 209);
+            this.textPlayerBCoin.Name = "textPlayerBCoin";
+            this.textPlayerBCoin.Size = new System.Drawing.Size(43, 24);
+            this.textPlayerBCoin.TabIndex = 9;
+            this.textPlayerBCoin.Text = "200";
+            // 
+            // goldCoin2
+            // 
+            this.goldCoin2.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
+            this.goldCoin2.Location = new System.Drawing.Point(142, 205);
+            this.goldCoin2.Name = "goldCoin2";
+            this.goldCoin2.Size = new System.Drawing.Size(35, 29);
+            this.goldCoin2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.goldCoin2.TabIndex = 17;
+            this.goldCoin2.TabStop = false;
+            // 
+            // textPlayerACoin
+            // 
+            this.textPlayerACoin.AutoSize = true;
+            this.textPlayerACoin.BackColor = System.Drawing.Color.Transparent;
+            this.textPlayerACoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textPlayerACoin.ForeColor = System.Drawing.Color.Gold;
+            this.textPlayerACoin.Location = new System.Drawing.Point(76, 209);
+            this.textPlayerACoin.Name = "textPlayerACoin";
+            this.textPlayerACoin.Size = new System.Drawing.Size(43, 24);
+            this.textPlayerACoin.TabIndex = 8;
+            this.textPlayerACoin.Text = "200";
+            // 
+            // goldCoin1
+            // 
+            this.goldCoin1.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
+            this.goldCoin1.Location = new System.Drawing.Point(48, 205);
+            this.goldCoin1.Name = "goldCoin1";
+            this.goldCoin1.Size = new System.Drawing.Size(35, 29);
+            this.goldCoin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.goldCoin1.TabIndex = 16;
+            this.goldCoin1.TabStop = false;
             // 
             // label5
             // 
@@ -132,62 +220,24 @@
             this.label8.TabIndex = 12;
             this.label8.Text = "Player A";
             // 
-            // textPlayerDCoin
+            // pictureBox2
             // 
-            this.textPlayerDCoin.AutoSize = true;
-            this.textPlayerDCoin.BackColor = System.Drawing.Color.Transparent;
-            this.textPlayerDCoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.textPlayerDCoin.ForeColor = System.Drawing.Color.Gold;
-            this.textPlayerDCoin.Location = new System.Drawing.Point(361, 209);
-            this.textPlayerDCoin.Name = "textPlayerDCoin";
-            this.textPlayerDCoin.Size = new System.Drawing.Size(43, 24);
-            this.textPlayerDCoin.TabIndex = 11;
-            this.textPlayerDCoin.Text = "200";
-            // 
-            // textPlayerCCoin
-            // 
-            this.textPlayerCCoin.AutoSize = true;
-            this.textPlayerCCoin.BackColor = System.Drawing.Color.Transparent;
-            this.textPlayerCCoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.textPlayerCCoin.ForeColor = System.Drawing.Color.Gold;
-            this.textPlayerCCoin.Location = new System.Drawing.Point(266, 209);
-            this.textPlayerCCoin.Name = "textPlayerCCoin";
-            this.textPlayerCCoin.Size = new System.Drawing.Size(43, 24);
-            this.textPlayerCCoin.TabIndex = 10;
-            this.textPlayerCCoin.Text = "200";
-            // 
-            // textPlayerBCoin
-            // 
-            this.textPlayerBCoin.AutoSize = true;
-            this.textPlayerBCoin.BackColor = System.Drawing.Color.Transparent;
-            this.textPlayerBCoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.textPlayerBCoin.ForeColor = System.Drawing.Color.Gold;
-            this.textPlayerBCoin.Location = new System.Drawing.Point(170, 209);
-            this.textPlayerBCoin.Name = "textPlayerBCoin";
-            this.textPlayerBCoin.Size = new System.Drawing.Size(43, 24);
-            this.textPlayerBCoin.TabIndex = 9;
-            this.textPlayerBCoin.Text = "200";
-            // 
-            // textPlayerACoin
-            // 
-            this.textPlayerACoin.AutoSize = true;
-            this.textPlayerACoin.BackColor = System.Drawing.Color.Transparent;
-            this.textPlayerACoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.textPlayerACoin.ForeColor = System.Drawing.Color.Gold;
-            this.textPlayerACoin.Location = new System.Drawing.Point(76, 209);
-            this.textPlayerACoin.Name = "textPlayerACoin";
-            this.textPlayerACoin.Size = new System.Drawing.Size(43, 24);
-            this.textPlayerACoin.TabIndex = 8;
-            this.textPlayerACoin.Text = "200";
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(406, 90);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(491, 384);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 8;
+            this.pictureBox2.TabStop = false;
             // 
             // MoveTimer
             // 
-            this.MoveTimer.Interval = 200;
             this.MoveTimer.Tick += new System.EventHandler(this.MoveA_Tick);
             // 
             // TurnTimer
             // 
-            this.TurnTimer.Interval = 200;
             this.TurnTimer.Tick += new System.EventHandler(this.TurnTimer_Tick);
             // 
             // playerD
@@ -250,28 +300,6 @@
             this.playerA.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.playerA.UseVisualStyleBackColor = false;
             // 
-            // goldCoin1
-            // 
-            this.goldCoin1.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
-            this.goldCoin1.Location = new System.Drawing.Point(48, 205);
-            this.goldCoin1.Name = "goldCoin1";
-            this.goldCoin1.Size = new System.Drawing.Size(35, 29);
-            this.goldCoin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.goldCoin1.TabIndex = 16;
-            this.goldCoin1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(406, 90);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(491, 384);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 8;
-            this.pictureBox2.TabStop = false;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -284,36 +312,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
-            // 
-            // goldCoin2
-            // 
-            this.goldCoin2.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
-            this.goldCoin2.Location = new System.Drawing.Point(142, 205);
-            this.goldCoin2.Name = "goldCoin2";
-            this.goldCoin2.Size = new System.Drawing.Size(35, 29);
-            this.goldCoin2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.goldCoin2.TabIndex = 17;
-            this.goldCoin2.TabStop = false;
-            // 
-            // goldCoin3
-            // 
-            this.goldCoin3.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
-            this.goldCoin3.Location = new System.Drawing.Point(238, 205);
-            this.goldCoin3.Name = "goldCoin3";
-            this.goldCoin3.Size = new System.Drawing.Size(35, 29);
-            this.goldCoin3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.goldCoin3.TabIndex = 18;
-            this.goldCoin3.TabStop = false;
-            // 
-            // goldCoin4
-            // 
-            this.goldCoin4.Image = global::GoldHunterAIGame.Properties.Resources.goldCoin;
-            this.goldCoin4.Location = new System.Drawing.Point(331, 205);
-            this.goldCoin4.Name = "goldCoin4";
-            this.goldCoin4.Size = new System.Drawing.Size(35, 29);
-            this.goldCoin4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.goldCoin4.TabIndex = 19;
-            this.goldCoin4.TabStop = false;
             // 
             // Game
             // 
@@ -328,16 +326,17 @@
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Game";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gold Hunter";
             this.Load += new System.EventHandler(this.Game_Load);
             this.pnlBoard.ResumeLayout(false);
             this.pnlBoard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.goldCoin2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.goldCoin2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).EndInit();
             this.ResumeLayout(false);
 
         }
