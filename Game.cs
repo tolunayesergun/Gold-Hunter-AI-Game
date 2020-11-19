@@ -15,8 +15,8 @@ namespace GoldHunterAIGame
         }
 
         private readonly Random rnd = new Random();
-        public static int areaXSize = 20;   // Oyunda ki bir satırda ki kare sayısı
-        public static int areaYSize = 20;   // Oyunda ki bir stunda ki kare sayısı
+        public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
+        public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
         public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
         public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
         public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
@@ -25,7 +25,7 @@ namespace GoldHunterAIGame
         public static int playerCGold = 200;
         public static int playerDGold = 200;
         public static int[] turnCost = { 5, 5, 5, 5 };
-        public static int[] findTargetCost = { 5, 10, 15, 20 };
+        public static int[] findTargetCost = { 5, 5, 5, 5 };
         public static int gameOverCount = 0;
 
         public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
@@ -49,21 +49,84 @@ namespace GoldHunterAIGame
             {
                 case 1:
                     player.target = FindTheClosestGold(player.playerLocation);
+                    targetA.Text = player.target.ToString();
                     break;
 
                 case 2:
                     player.target = FindTheMostProfitableGold(player.playerLocation);
+                    targetB.Text = player.target.ToString();
                     break;
 
                 case 3:
                     OpenTheClosestSecretGold(player.playerLocation);
                     player.target = FindTheMostProfitableGold(player.playerLocation);
+                    targetC.Text = player.target.ToString();
                     break;
 
                 case 4:
-                    player.target = FindTheMostProfitableGold(player.playerLocation);
+                    player.target = FindTheMostProfitableGoldForD(player.playerLocation);
+                    targetD.Text = player.target.ToString();
                     break;
             }
+        }
+
+        private bool IsItClosestAccordingToOthers(int targetButton, int rangeD)
+        {
+            List<Player> tempTargets = playerList.Where(p => p.target == targetButton).ToList();
+            Cordinant goldLocation = FindCordinant(targetButton);
+            int turnCountD = Convert.ToInt32(Math.Ceiling((decimal)rangeD / (turnMoveMAX - 1)));
+            foreach (var item in tempTargets)
+            {
+                int tempRange = Math.Abs(item.playerLocation.row - goldLocation.row) + Math.Abs(item.playerLocation.column - goldLocation.column);
+                int tempTurnCount = Convert.ToInt32(Math.Ceiling((decimal)tempRange / (turnMoveMAX - 1)));
+
+                if (turnCountD > tempTurnCount - 1)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private int FindTheMostProfitableGoldForD(Cordinant playerLocation)
+        {
+            int MostProfitableLocation = 0;
+            int totalProfit = -9999999;
+
+            List<Gold> tempList = goldList.Where(p => p.isSecret == false && p.isTaken == false).ToList();
+
+            foreach (var item in tempList)
+            {
+                int tempRange = Math.Abs(playerLocation.row - item.goldLocation.row) + Math.Abs(playerLocation.column - item.goldLocation.column);
+                int tempTotalproFit = item.value - Convert.ToInt32(Math.Ceiling((double)tempRange / (turnMoveMAX - 1)) * turnCost[playerTurn - 1]);
+                List<Player> tempPlayerControl = playerList.Where(p => p.target == item.buttonNum).ToList();
+
+                if (tempPlayerControl.Select(p => p.target).Contains(item.buttonNum))
+                {
+                    foreach (var player in tempPlayerControl)
+                    {
+                        if (IsItClosestAccordingToOthers(player.target, tempRange))
+                        {
+                            if (tempTotalproFit > totalProfit)
+                            {
+                                totalProfit = tempTotalproFit;
+                                MostProfitableLocation = item.buttonNum;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (tempTotalproFit > totalProfit)
+                    {
+                        totalProfit = tempTotalproFit;
+                        MostProfitableLocation = item.buttonNum;
+                    }
+                }
+            }
+
+            return MostProfitableLocation;
         }
 
         private int FindTheMostProfitableGold(Cordinant playerLocation)
@@ -125,19 +188,11 @@ namespace GoldHunterAIGame
                     }
                 }
 
-                Gold tempGold = goldList.Where(p => p.buttonNum == closestLocation).FirstOrDefault();
-                if (tempGold != null)
-                {
-                    tempGold.isSecret = false;
-                    string img = "Secret" + tempGold.value.ToString();
-                    object obj = Properties.Resources.ResourceManager.GetObject(img);
-                    (pnlBoard.Controls["btn" + closestLocation.ToString()] as Button).BackgroundImage = (Image)obj;
-                }
+                OpenSecret(closestLocation);
             }
         }    // Oyuncuya en yakın gizli altınlardan 2 tanesinin gizliliğini kaldıran fonksiyon
 
         #endregion PlayerMechanics
-
 
         #region GlobalFunctions
 
@@ -167,7 +222,6 @@ namespace GoldHunterAIGame
 
         #endregion GlobalFunctions
 
-
         #region GameDynamics
 
         private void moveTo()
@@ -175,7 +229,6 @@ namespace GoldHunterAIGame
             Player player = playerList.Where(p => p.playerdID == playerTurn).SingleOrDefault();
             Cordinant startSpot = player.playerLocation, endSpot = FindCordinant(player.target);
             Button playerButton = (pnlBoard.Controls["player" + player.playerName] as Button);
-
             if (startSpot.row < endSpot.row)
             {
                 startSpot.row++;
@@ -183,6 +236,9 @@ namespace GoldHunterAIGame
                 player.playerLocation = startSpot;
                 player.buttonNum += areaXSize;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
+                OpenSecret(player.buttonNum);
+
+
             }
             else if (startSpot.row > endSpot.row)
             {
@@ -191,6 +247,7 @@ namespace GoldHunterAIGame
                 player.playerLocation = startSpot;
                 player.buttonNum -= areaXSize;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
+                OpenSecret(player.buttonNum);
             }
             else if (startSpot.column < endSpot.column)
             {
@@ -199,6 +256,7 @@ namespace GoldHunterAIGame
                 player.playerLocation = startSpot;
                 player.buttonNum += 1;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
+                OpenSecret(player.buttonNum);
             }
             else if (startSpot.column > endSpot.column)
             {
@@ -207,6 +265,7 @@ namespace GoldHunterAIGame
                 player.playerLocation = startSpot;
                 player.buttonNum -= 1;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
+                OpenSecret(player.buttonNum);
             }
 
             if (player.buttonNum == player.target)
@@ -281,8 +340,19 @@ namespace GoldHunterAIGame
             }
         }  // Oyuncu hareketlerini sürdüren timer
 
-        #endregion GameDynamics
+        private void OpenSecret(int buttonNum)
+        {
+            Gold getGold = goldList.Where(p => p.buttonNum == buttonNum).FirstOrDefault();
+            if (getGold != null)
+            {
+                getGold.isSecret = false;
+                string img = "Secret" + getGold.value.ToString();
+                object obj = Properties.Resources.ResourceManager.GetObject(img);
+                (pnlBoard.Controls["btn" + buttonNum.ToString()] as Button).BackgroundImage = (Image)obj;
+            }
+        }
 
+        #endregion GameDynamics
 
         #region InterfaceFunctions
 

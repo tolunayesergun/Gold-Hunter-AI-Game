@@ -51,6 +51,10 @@
             this.playerB = new System.Windows.Forms.Button();
             this.playerA = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.targetD = new System.Windows.Forms.TextBox();
+            this.targetC = new System.Windows.Forms.TextBox();
+            this.targetA = new System.Windows.Forms.TextBox();
+            this.targetB = new System.Windows.Forms.TextBox();
             this.pnlBoard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).BeginInit();
@@ -234,10 +238,12 @@
             // 
             // MoveTimer
             // 
+            this.MoveTimer.Interval = 800;
             this.MoveTimer.Tick += new System.EventHandler(this.MoveA_Tick);
             // 
             // TurnTimer
             // 
+            this.TurnTimer.Interval = 800;
             this.TurnTimer.Tick += new System.EventHandler(this.TurnTimer_Tick);
             // 
             // playerD
@@ -313,11 +319,43 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
+            // targetD
+            // 
+            this.targetD.Location = new System.Drawing.Point(1165, 12);
+            this.targetD.Name = "targetD";
+            this.targetD.Size = new System.Drawing.Size(58, 20);
+            this.targetD.TabIndex = 8;
+            // 
+            // targetC
+            // 
+            this.targetC.Location = new System.Drawing.Point(1101, 12);
+            this.targetC.Name = "targetC";
+            this.targetC.Size = new System.Drawing.Size(58, 20);
+            this.targetC.TabIndex = 9;
+            // 
+            // targetA
+            // 
+            this.targetA.Location = new System.Drawing.Point(973, 12);
+            this.targetA.Name = "targetA";
+            this.targetA.Size = new System.Drawing.Size(58, 20);
+            this.targetA.TabIndex = 11;
+            // 
+            // targetB
+            // 
+            this.targetB.Location = new System.Drawing.Point(1037, 12);
+            this.targetB.Name = "targetB";
+            this.targetB.Size = new System.Drawing.Size(58, 20);
+            this.targetB.TabIndex = 10;
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1235, 714);
+            this.Controls.Add(this.targetA);
+            this.Controls.Add(this.targetB);
+            this.Controls.Add(this.targetC);
+            this.Controls.Add(this.targetD);
             this.Controls.Add(this.playerD);
             this.Controls.Add(this.playerC);
             this.Controls.Add(this.playerB);
@@ -338,6 +376,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -364,5 +403,9 @@
         private System.Windows.Forms.PictureBox goldCoin4;
         private System.Windows.Forms.PictureBox goldCoin3;
         private System.Windows.Forms.PictureBox goldCoin2;
+        private System.Windows.Forms.TextBox targetD;
+        private System.Windows.Forms.TextBox targetC;
+        private System.Windows.Forms.TextBox targetA;
+        private System.Windows.Forms.TextBox targetB;
     }
 }
