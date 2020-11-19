@@ -15,5 +15,6 @@ namespace GoldHunterAIGame.Models
         public string playerButtonName { get; set; }
         public string playerName { get; set; }
         public Cordinant playerLocation { get; set; }
+        public int stat { get; set; }
     }
 }

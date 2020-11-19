@@ -14,32 +14,33 @@ namespace GoldHunterAIGame
             InitializeComponent();
         }
 
-        private readonly Random rnd = new Random();
-        public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
-        public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
-        public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
-        public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
-        public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
-        public static int playerAGold = 200;
-        public static int playerBGold = 200;
-        public static int playerCGold = 200;
-        public static int playerDGold = 200;
-        public static int[] turnCost = { 5, 5, 5, 5 };
-        public static int[] findTargetCost = { 5, 5, 5, 5 };
-        public static int gameOverCount = 0;
-
-        public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
-        public static int playerTurn = 1;  // Sıranın hangi oyuncuda olduğunu tutuyor.
-
-        private readonly List<Player> playerList = new List<Player>();
-        private readonly List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
-
         private void Game_Load(object sender, EventArgs e)
         {
             CreateGame();
             OnLoadEvents();
             TurnTimer.Start();
         }
+
+        #region Entities
+
+        private readonly Random rnd = new Random(); // Random sayı üretmemiz için gerekli instance
+        public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
+        public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
+        public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
+        public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
+        public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
+        public static int playerTotalGold = 200; // Oyuncuların toplam altın sayısı
+        public static int[] turnCost = { 5, 5, 5, 5 };  // Oyuncuların hamle maliyeti
+        public static int[] findTargetCost = { 5, 10, 15, 20 };  // Oyuncuların hedef seçme maliyeti
+
+        public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
+        public static int playerTurn = 1;  // Sıranın hangi oyuncuda olduğunu tutuyor.
+        public static int countLivePlayers = 4;  // Elenmemiş oyuncuların sayısı
+
+        private readonly List<Player> playerList = new List<Player>();
+        private readonly List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
+
+        #endregion Entities
 
         #region PlayerMechanics
 
@@ -237,8 +238,6 @@ namespace GoldHunterAIGame
                 player.buttonNum += areaXSize;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
                 OpenSecret(player.buttonNum);
-
-
             }
             else if (startSpot.row > endSpot.row)
             {
@@ -297,8 +296,11 @@ namespace GoldHunterAIGame
                 int remainingGold = goldList.Where(p => p.isTaken == false && p.isSecret == false).Count();
                 int remainingSecretGold = goldList.Where(p => p.isTaken == false).Count();
                 Player playerC = playerList.Where(p => p.playerdID == 3).Single();
+                int eliminatedPlayerNumber = playerList.Where(p => p.stat != 5).Count();
 
-                if (remainingGold == 0 && playerC.playerGold < findTargetCost[2] || remainingGold == 0 && remainingSecretGold == 0)
+                if (remainingGold == 0 && playerC.playerGold < findTargetCost[2]
+                 || remainingGold == 0 && remainingSecretGold == 0
+                 || eliminatedPlayerNumber == 4)
                 {
                     TurnTimer.Stop();
                     Player winnerPlayer = playerList.Where(t => t.playerGold == playerList.Select(p => p.playerGold).Max()).FirstOrDefault();
@@ -314,10 +316,24 @@ namespace GoldHunterAIGame
                     else if (player.target == 0 && player.playerGold >= findTargetCost[playerTurn - 1])
                     {
                         FindNextTarget(player);
-                        if (player.target != 0) player.playerGold -= findTargetCost[playerTurn - 1];
+                        if (player.target != 0)
+                        {
+                            player.playerGold -= findTargetCost[playerTurn - 1];
+                            player.playerGold -= turnCost[playerTurn - 1];
+                            MoveTimer.Start();
+                        }
+                        else
+                        {
+                            playerTurn++;
+                        }
                     }
                     else
                     {
+                        if (player.stat == 5)
+                        {
+                            player.stat = countLivePlayers;
+                            countLivePlayers--;
+                        }
                         playerTurn++;
                     }
 
@@ -342,7 +358,7 @@ namespace GoldHunterAIGame
 
         private void OpenSecret(int buttonNum)
         {
-            Gold getGold = goldList.Where(p => p.buttonNum == buttonNum).FirstOrDefault();
+            Gold getGold = goldList.Where(p => p.buttonNum == buttonNum && p.isTaken == false).FirstOrDefault();
             if (getGold != null)
             {
                 getGold.isSecret = false;
@@ -350,7 +366,7 @@ namespace GoldHunterAIGame
                 object obj = Properties.Resources.ResourceManager.GetObject(img);
                 (pnlBoard.Controls["btn" + buttonNum.ToString()] as Button).BackgroundImage = (Image)obj;
             }
-        }
+        }  // Gizli altınları açan fonksiyon
 
         #endregion GameDynamics
 
@@ -437,28 +453,28 @@ namespace GoldHunterAIGame
             playerA.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerA.Location = (pnlBoard.Controls["btn" + playerAFirstSpawn.ToString()] as Button).Location;
             playerA.AccessibleName = playerAFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 1, playerName = "A", playerLocation = FindCordinant(playerAFirstSpawn), playerGold = playerAGold, buttonNum = playerAFirstSpawn, playerButtonName = "btn" + playerAFirstSpawn.ToString(), target = 0 });
+            playerList.Add(new Player { playerdID = 1, playerName = "A", playerLocation = FindCordinant(playerAFirstSpawn), playerGold = playerTotalGold, buttonNum = playerAFirstSpawn, playerButtonName = "btn" + playerAFirstSpawn.ToString(), target = 0, stat = 5 });
 
             pnlBoard.Controls.Add(playerB);
             playerB.BringToFront();
             playerB.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerB.Location = (pnlBoard.Controls["btn" + playerBFirstSpawn.ToString()] as Button).Location;
             playerB.AccessibleName = playerBFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 2, playerName = "B", playerLocation = FindCordinant(playerBFirstSpawn), playerGold = playerBGold, buttonNum = playerBFirstSpawn, playerButtonName = "btn" + playerBFirstSpawn.ToString(), target = 0 });
+            playerList.Add(new Player { playerdID = 2, playerName = "B", playerLocation = FindCordinant(playerBFirstSpawn), playerGold = playerTotalGold, buttonNum = playerBFirstSpawn, playerButtonName = "btn" + playerBFirstSpawn.ToString(), target = 0, stat = 5 });
 
             pnlBoard.Controls.Add(playerC);
             playerC.BringToFront();
             playerC.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerC.Location = (pnlBoard.Controls["btn" + playerCFirstSpawn.ToString()] as Button).Location;
             playerC.AccessibleName = playerCFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 3, playerName = "C", playerLocation = FindCordinant(playerCFirstSpawn), playerGold = playerCGold, buttonNum = playerCFirstSpawn, playerButtonName = "btn" + playerCFirstSpawn.ToString(), target = 0 });
+            playerList.Add(new Player { playerdID = 3, playerName = "C", playerLocation = FindCordinant(playerCFirstSpawn), playerGold = playerTotalGold, buttonNum = playerCFirstSpawn, playerButtonName = "btn" + playerCFirstSpawn.ToString(), target = 0, stat = 5 });
 
             pnlBoard.Controls.Add(playerD);
             playerD.BringToFront();
             playerD.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerD.Location = (pnlBoard.Controls["btn" + playerDFirstSpawn.ToString()] as Button).Location;
             playerD.AccessibleName = playerDFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 4, playerName = "D", playerLocation = FindCordinant(playerDFirstSpawn), playerGold = playerDGold, buttonNum = playerDFirstSpawn, playerButtonName = "btn" + playerDFirstSpawn.ToString(), target = 0 });
+            playerList.Add(new Player { playerdID = 4, playerName = "D", playerLocation = FindCordinant(playerDFirstSpawn), playerGold = playerTotalGold, buttonNum = playerDFirstSpawn, playerButtonName = "btn" + playerDFirstSpawn.ToString(), target = 0, stat = 5 });
         }  // Oyuncuları üreten fonksiyon
 
         private void GenerateGolds(int areaTotalSize, int playerAFirstSpawn, int playerBFirstSpawn, int playerCFirstSpawn, int playerDFirstSpawn)
@@ -515,10 +531,10 @@ namespace GoldHunterAIGame
             textPlayerBCoin.Parent = pictureBox2;
             textPlayerCCoin.Parent = pictureBox2;
             textPlayerDCoin.Parent = pictureBox2;
-            textPlayerACoin.Text = playerAGold.ToString();
-            textPlayerBCoin.Text = playerBGold.ToString();
-            textPlayerCCoin.Text = playerCGold.ToString();
-            textPlayerDCoin.Text = playerDGold.ToString();
+            textPlayerACoin.Text = playerTotalGold.ToString();
+            textPlayerBCoin.Text = playerTotalGold.ToString();
+            textPlayerCCoin.Text = playerTotalGold.ToString();
+            textPlayerDCoin.Text = playerTotalGold.ToString();
             label5.Parent = pictureBox2;
             label6.Parent = pictureBox2;
             label7.Parent = pictureBox2;

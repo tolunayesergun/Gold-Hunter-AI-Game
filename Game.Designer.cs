@@ -69,6 +69,7 @@
             this.pnlBoard.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlBoard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(25)))), ((int)(((byte)(12)))));
             this.pnlBoard.Controls.Add(this.textPlayerCCoin);
             this.pnlBoard.Controls.Add(this.textPlayerDCoin);
             this.pnlBoard.Controls.Add(this.goldCoin4);
@@ -238,12 +239,12 @@
             // 
             // MoveTimer
             // 
-            this.MoveTimer.Interval = 800;
+            this.MoveTimer.Interval = 20;
             this.MoveTimer.Tick += new System.EventHandler(this.MoveA_Tick);
             // 
             // TurnTimer
             // 
-            this.TurnTimer.Interval = 800;
+            this.TurnTimer.Interval = 20;
             this.TurnTimer.Tick += new System.EventHandler(this.TurnTimer_Tick);
             // 
             // playerD
