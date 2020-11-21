@@ -26,18 +26,18 @@ namespace GoldHunterAIGame
         private readonly Random rnd = new Random(); // Random sayı üretmemiz için gerekli instance
         public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
         public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
-        public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
-        public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
+        public static int goldRate = 1;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
+        public static int secretGoldRate = 0;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
         public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
         public static int playerTotalGold = 200; // Oyuncuların toplam altın sayısı
         public static int[] turnCost = { 5, 5, 5, 5 };  // Oyuncuların hamle maliyeti
-        public static int[] findTargetCost = { 5, 10, 15, 20 };  // Oyuncuların hedef seçme maliyeti
+        public static int[] findTargetCost = { 5, 5, 5, 5 };  // Oyuncuların hedef seçme maliyeti
 
         public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
         public static int playerTurn = 1;  // Sıranın hangi oyuncuda olduğunu tutuyor.
         public static int countLivePlayers = 4;  // Elenmemiş oyuncuların sayısı
 
-        private readonly List<Player> playerList = new List<Player>();
+        private readonly List<Player> playerList = new List<Player>();  // Oyuncuların dinamik listesi
         private readonly List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
 
         #endregion Entities
@@ -69,7 +69,7 @@ namespace GoldHunterAIGame
                     targetD.Text = player.target.ToString();
                     break;
             }
-        }
+        }    // Sonra ki oyuncunun oynama türünü tutan case yapısı
 
         private bool IsItClosestAccordingToOthers(int targetButton, int rangeD)
         {
@@ -88,7 +88,7 @@ namespace GoldHunterAIGame
             }
 
             return true;
-        }
+        }  // D oyuncusuna özel, hedefine rakiplerinden önce ulaşup ulaşamıycağını döndüren fonksiyon
 
         private int FindTheMostProfitableGoldForD(Cordinant playerLocation)
         {
@@ -128,7 +128,7 @@ namespace GoldHunterAIGame
             }
 
             return MostProfitableLocation;
-        }
+        } // D Oyuncusuna özel en kãrlı hedefi bulmayı sağlayan fonksiyon
 
         private int FindTheMostProfitableGold(Cordinant playerLocation)
         {
@@ -149,7 +149,7 @@ namespace GoldHunterAIGame
             }
 
             return MostProfitableLocation;
-        }
+        } // En kãrlı hedefi bulmak için kullanılan fonksiyon
 
         private int FindTheClosestGold(Cordinant playerLocation)
         {
