@@ -27,8 +27,8 @@ namespace GoldHunterAIGame
         private readonly Random rnd = new Random(); // Random sayı üretmemiz için gerekli instance
         public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
         public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
-        public static int goldRate = 1;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
-        public static int secretGoldRate = 0;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
+        public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
+        public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
         public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
         public static int playerTotalGold = 200; // Oyuncuların toplam altın sayısı
         public static int[] turnCost = { 5, 5, 5, 5 };  // Oyuncuların hamle maliyeti
@@ -239,6 +239,7 @@ namespace GoldHunterAIGame
                 player.buttonNum += areaXSize;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
                 OpenSecret(player.buttonNum);
+                player.StepCount++;
             }
             else if (startSpot.row > endSpot.row)
             {
@@ -248,6 +249,7 @@ namespace GoldHunterAIGame
                 player.buttonNum -= areaXSize;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
                 OpenSecret(player.buttonNum);
+                player.StepCount++;
             }
             else if (startSpot.column < endSpot.column)
             {
@@ -257,6 +259,7 @@ namespace GoldHunterAIGame
                 player.buttonNum += 1;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
                 OpenSecret(player.buttonNum);
+                player.StepCount++;
             }
             else if (startSpot.column > endSpot.column)
             {
@@ -266,6 +269,7 @@ namespace GoldHunterAIGame
                 player.buttonNum -= 1;
                 player.playerButtonName = "btn" + player.buttonNum.ToString();
                 OpenSecret(player.buttonNum);
+                player.StepCount++;
             }
 
             if (player.buttonNum == player.target)
@@ -282,6 +286,7 @@ namespace GoldHunterAIGame
                     item.target = 0;
                 }
                 player.playerGold += takenGold.value;
+                player.collectedGold += takenGold.value;
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
             }
         } // Sonraki hamleyi gerçekleştiren fonksiyon
@@ -305,7 +310,7 @@ namespace GoldHunterAIGame
                 {
                     TurnTimer.Stop();
                     Player winnerPlayer = playerList.Where(t => t.playerGold == playerList.Select(p => p.playerGold).Max()).FirstOrDefault();
-                    ScoreBoard scr = new ScoreBoard();
+                    ScoreBoard scr = new ScoreBoard(playerList);
                     if(scr.ShowDialog()==DialogResult.Cancel)MessageBox.Show("girdi");
                     
                 }
@@ -314,6 +319,7 @@ namespace GoldHunterAIGame
                     if (player.target != 0 && player.playerGold > turnCost[playerTurn - 1])
                     {
                         player.playerGold -= turnCost[playerTurn - 1];
+                        player.spentGold += turnCost[playerTurn - 1];
                         MoveTimer.Start();
                     }
                     else if (player.target == 0 && player.playerGold >= findTargetCost[playerTurn - 1])
@@ -321,8 +327,9 @@ namespace GoldHunterAIGame
                         FindNextTarget(player);
                         if (player.target != 0)
                         {
-                            player.playerGold -= findTargetCost[playerTurn - 1];
+                            player.playerGold -= findTargetCost[playerTurn - 1];                         
                             player.playerGold -= turnCost[playerTurn - 1];
+                            player.spentGold += findTargetCost[playerTurn - 1] + turnCost[playerTurn - 1];
                             MoveTimer.Start();
                         }
                         else
@@ -456,21 +463,21 @@ namespace GoldHunterAIGame
             playerA.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerA.Location = (pnlBoard.Controls["btn" + playerAFirstSpawn.ToString()] as Button).Location;
             playerA.AccessibleName = playerAFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 1, playerName = "A", playerLocation = FindCordinant(playerAFirstSpawn), playerGold = playerTotalGold, buttonNum = playerAFirstSpawn, playerButtonName = "btn" + playerAFirstSpawn.ToString(), target = 0, stat = 5 });
+            playerList.Add(new Player { playerdID = 1, playerName = "A", playerLocation = FindCordinant(playerAFirstSpawn), playerGold = playerTotalGold, buttonNum = playerAFirstSpawn, playerButtonName = "btn" + playerAFirstSpawn.ToString(), target = 0, stat = 5,collectedGold=0,spentGold=0,StepCount=0 });
 
             pnlBoard.Controls.Add(playerB);
             playerB.BringToFront();
             playerB.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerB.Location = (pnlBoard.Controls["btn" + playerBFirstSpawn.ToString()] as Button).Location;
             playerB.AccessibleName = playerBFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 2, playerName = "B", playerLocation = FindCordinant(playerBFirstSpawn), playerGold = playerTotalGold, buttonNum = playerBFirstSpawn, playerButtonName = "btn" + playerBFirstSpawn.ToString(), target = 0, stat = 5 });
+            playerList.Add(new Player { playerdID = 2, playerName = "B", playerLocation = FindCordinant(playerBFirstSpawn), playerGold = playerTotalGold, buttonNum = playerBFirstSpawn, playerButtonName = "btn" + playerBFirstSpawn.ToString(), target = 0, stat = 5, collectedGold = 0, spentGold = 0, StepCount = 0 });
 
             pnlBoard.Controls.Add(playerC);
             playerC.BringToFront();
             playerC.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerC.Location = (pnlBoard.Controls["btn" + playerCFirstSpawn.ToString()] as Button).Location;
             playerC.AccessibleName = playerCFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 3, playerName = "C", playerLocation = FindCordinant(playerCFirstSpawn), playerGold = playerTotalGold, buttonNum = playerCFirstSpawn, playerButtonName = "btn" + playerCFirstSpawn.ToString(), target = 0, stat = 5 });
+            playerList.Add(new Player { playerdID = 3, playerName = "C", playerLocation = FindCordinant(playerCFirstSpawn), playerGold = playerTotalGold, buttonNum = playerCFirstSpawn, playerButtonName = "btn" + playerCFirstSpawn.ToString(), target = 0, stat = 5, collectedGold = 0, spentGold = 0, StepCount = 0 });
 
             pnlBoard.Controls.Add(playerD);
             playerD.BringToFront();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoldHunterAIGame.Models
 {
-    class Cordinant
+    public class Cordinant
     {
         public int row { get; set; }
         public int column { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoldHunterAIGame.Models
 {
-    class Player
+    public class Player
     {
         public int playerdID { get; set; }
         public int playerGold { get; set; }
@@ -16,5 +16,8 @@ namespace GoldHunterAIGame.Models
         public string playerName { get; set; }
         public Cordinant playerLocation { get; set; }
         public int stat { get; set; }
+        public int StepCount { get; set; }
+        public int spentGold { get; set; }
+        public int collectedGold { get; set; }
     }
 }

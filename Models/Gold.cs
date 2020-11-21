@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoldHunterAIGame.Models
 {
-    class Gold
+    public class Gold
     {
         public int goldID { get; set; }  
         public int value { get; set; }   // Değeri (5-10-15-20)

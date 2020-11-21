@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScoreBoard));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.playerD = new System.Windows.Forms.Button();
-            this.playerC = new System.Windows.Forms.Button();
-            this.playerB = new System.Windows.Forms.Button();
-            this.playerA = new System.Windows.Forms.Button();
+            this.btnPlayerD = new System.Windows.Forms.Button();
+            this.btnPlayerC = new System.Windows.Forms.Button();
+            this.btnPlayerB = new System.Windows.Forms.Button();
+            this.btnPlayerA = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.winnerPlayerButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -91,65 +91,65 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // playerD
+            // btnPlayerD
             // 
-            this.playerD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.playerD.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playerD.BackgroundImage")));
-            this.playerD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.playerD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.playerD.ForeColor = System.Drawing.Color.White;
-            this.playerD.Location = new System.Drawing.Point(187, 315);
-            this.playerD.Name = "playerD";
-            this.playerD.Size = new System.Drawing.Size(34, 36);
-            this.playerD.TabIndex = 9;
-            this.playerD.Text = "D";
-            this.playerD.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.playerD.UseVisualStyleBackColor = false;
+            this.btnPlayerD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnPlayerD.BackgroundImage = global::GoldHunterAIGame.Properties.Resources.miner;
+            this.btnPlayerD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnPlayerD.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnPlayerD.ForeColor = System.Drawing.Color.White;
+            this.btnPlayerD.Location = new System.Drawing.Point(187, 358);
+            this.btnPlayerD.Name = "btnPlayerD";
+            this.btnPlayerD.Size = new System.Drawing.Size(34, 36);
+            this.btnPlayerD.TabIndex = 9;
+            this.btnPlayerD.Text = "D";
+            this.btnPlayerD.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnPlayerD.UseVisualStyleBackColor = false;
             // 
-            // playerC
+            // btnPlayerC
             // 
-            this.playerC.BackColor = System.Drawing.Color.Crimson;
-            this.playerC.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playerC.BackgroundImage")));
-            this.playerC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.playerC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.playerC.ForeColor = System.Drawing.Color.White;
-            this.playerC.Location = new System.Drawing.Point(187, 359);
-            this.playerC.Name = "playerC";
-            this.playerC.Size = new System.Drawing.Size(34, 36);
-            this.playerC.TabIndex = 8;
-            this.playerC.Text = "C";
-            this.playerC.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.playerC.UseVisualStyleBackColor = false;
+            this.btnPlayerC.BackColor = System.Drawing.Color.Crimson;
+            this.btnPlayerC.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPlayerC.BackgroundImage")));
+            this.btnPlayerC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnPlayerC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnPlayerC.ForeColor = System.Drawing.Color.White;
+            this.btnPlayerC.Location = new System.Drawing.Point(187, 314);
+            this.btnPlayerC.Name = "btnPlayerC";
+            this.btnPlayerC.Size = new System.Drawing.Size(34, 36);
+            this.btnPlayerC.TabIndex = 8;
+            this.btnPlayerC.Text = "C";
+            this.btnPlayerC.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnPlayerC.UseVisualStyleBackColor = false;
             // 
-            // playerB
+            // btnPlayerB
             // 
-            this.playerB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.playerB.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playerB.BackgroundImage")));
-            this.playerB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.playerB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.playerB.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.playerB.Location = new System.Drawing.Point(187, 270);
-            this.playerB.Name = "playerB";
-            this.playerB.Size = new System.Drawing.Size(34, 36);
-            this.playerB.TabIndex = 7;
-            this.playerB.Text = "B";
-            this.playerB.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.playerB.UseVisualStyleBackColor = false;
+            this.btnPlayerB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnPlayerB.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPlayerB.BackgroundImage")));
+            this.btnPlayerB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnPlayerB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnPlayerB.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.btnPlayerB.Location = new System.Drawing.Point(187, 270);
+            this.btnPlayerB.Name = "btnPlayerB";
+            this.btnPlayerB.Size = new System.Drawing.Size(34, 36);
+            this.btnPlayerB.TabIndex = 7;
+            this.btnPlayerB.Text = "B";
+            this.btnPlayerB.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnPlayerB.UseVisualStyleBackColor = false;
             // 
-            // playerA
+            // btnPlayerA
             // 
-            this.playerA.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.playerA.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playerA.BackgroundImage")));
-            this.playerA.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.playerA.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.playerA.ForeColor = System.Drawing.Color.White;
-            this.playerA.Location = new System.Drawing.Point(187, 225);
-            this.playerA.Name = "playerA";
-            this.playerA.Size = new System.Drawing.Size(34, 36);
-            this.playerA.TabIndex = 6;
-            this.playerA.Text = "A";
-            this.playerA.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.playerA.UseVisualStyleBackColor = false;
+            this.btnPlayerA.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnPlayerA.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPlayerA.BackgroundImage")));
+            this.btnPlayerA.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnPlayerA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnPlayerA.ForeColor = System.Drawing.Color.White;
+            this.btnPlayerA.Location = new System.Drawing.Point(187, 225);
+            this.btnPlayerA.Name = "btnPlayerA";
+            this.btnPlayerA.Size = new System.Drawing.Size(34, 36);
+            this.btnPlayerA.TabIndex = 6;
+            this.btnPlayerA.Text = "A";
+            this.btnPlayerA.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnPlayerA.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -170,7 +170,7 @@
             this.winnerPlayerButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.winnerPlayerButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.winnerPlayerButton.ForeColor = System.Drawing.Color.White;
-            this.winnerPlayerButton.Location = new System.Drawing.Point(448, 112);
+            this.winnerPlayerButton.Location = new System.Drawing.Point(448, 113);
             this.winnerPlayerButton.Name = "winnerPlayerButton";
             this.winnerPlayerButton.Size = new System.Drawing.Size(47, 42);
             this.winnerPlayerButton.TabIndex = 13;
@@ -544,10 +544,10 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.playerD);
-            this.Controls.Add(this.playerC);
-            this.Controls.Add(this.playerB);
-            this.Controls.Add(this.playerA);
+            this.Controls.Add(this.btnPlayerD);
+            this.Controls.Add(this.btnPlayerC);
+            this.Controls.Add(this.btnPlayerB);
+            this.Controls.Add(this.btnPlayerA);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -565,10 +565,10 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button playerD;
-        private System.Windows.Forms.Button playerC;
-        private System.Windows.Forms.Button playerB;
-        private System.Windows.Forms.Button playerA;
+        private System.Windows.Forms.Button btnPlayerD;
+        private System.Windows.Forms.Button btnPlayerC;
+        private System.Windows.Forms.Button btnPlayerB;
+        private System.Windows.Forms.Button btnPlayerA;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button winnerPlayerButton;
         private System.Windows.Forms.Panel panel1;
