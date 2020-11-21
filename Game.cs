@@ -19,6 +19,7 @@ namespace GoldHunterAIGame
             CreateGame();
             OnLoadEvents();
             TurnTimer.Start();
+     
         }
 
         #region Entities
@@ -31,7 +32,7 @@ namespace GoldHunterAIGame
         public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
         public static int playerTotalGold = 200; // Oyuncuların toplam altın sayısı
         public static int[] turnCost = { 5, 5, 5, 5 };  // Oyuncuların hamle maliyeti
-        public static int[] findTargetCost = { 5, 5, 5, 5 };  // Oyuncuların hedef seçme maliyeti
+        public static int[] findTargetCost = { 5, 10, 15, 20 };  // Oyuncuların hedef seçme maliyeti
 
         public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
         public static int playerTurn = 1;  // Sıranın hangi oyuncuda olduğunu tutuyor.
@@ -304,7 +305,9 @@ namespace GoldHunterAIGame
                 {
                     TurnTimer.Stop();
                     Player winnerPlayer = playerList.Where(t => t.playerGold == playerList.Select(p => p.playerGold).Max()).FirstOrDefault();
-                    MessageBox.Show("Kazanan Player " + winnerPlayer.playerName);
+                    ScoreBoard scr = new ScoreBoard();
+                    if(scr.ShowDialog()==DialogResult.Cancel)MessageBox.Show("girdi");
+                    
                 }
                 else
                 {
