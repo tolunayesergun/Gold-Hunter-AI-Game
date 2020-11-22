@@ -9,22 +9,24 @@ namespace GoldHunterAIGame
 {
     public partial class Game : Form
     {
-        public Game()
+        public Game(Form _interface)
         {
             InitializeComponent();
+            parent = _interface;
         }
+       
 
         private void Game_Load(object sender, EventArgs e)
         {
             CreateGame();
             OnLoadEvents();
             TurnTimer.Start();
-     
         }
 
         #region Entities
 
         private readonly Random rnd = new Random(); // Random sayı üretmemiz için gerekli instance
+        private readonly Form parent; // Parent Formu tutan değişken
         public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
         public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
         public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
@@ -51,23 +53,19 @@ namespace GoldHunterAIGame
             {
                 case 1:
                     player.target = FindTheClosestGold(player.playerLocation);
-                    targetA.Text = player.target.ToString();
                     break;
 
                 case 2:
                     player.target = FindTheMostProfitableGold(player.playerLocation);
-                    targetB.Text = player.target.ToString();
                     break;
 
                 case 3:
                     OpenTheClosestSecretGold(player.playerLocation);
                     player.target = FindTheMostProfitableGold(player.playerLocation);
-                    targetC.Text = player.target.ToString();
                     break;
 
                 case 4:
                     player.target = FindTheMostProfitableGoldForD(player.playerLocation);
-                    targetD.Text = player.target.ToString();
                     break;
             }
         }    // Sonra ki oyuncunun oynama türünü tutan case yapısı
@@ -194,6 +192,18 @@ namespace GoldHunterAIGame
             }
         }    // Oyuncuya en yakın gizli altınlardan 2 tanesinin gizliliğini kaldıran fonksiyon
 
+        private void OpenSecret(int buttonNum)
+        {
+            Gold getGold = goldList.Where(p => p.buttonNum == buttonNum && p.isTaken == false).FirstOrDefault();
+            if (getGold != null)
+            {
+                getGold.isSecret = false;
+                string img = "Secret" + getGold.value.ToString();
+                object obj = Properties.Resources.ResourceManager.GetObject(img);
+                (pnlBoard.Controls["btn" + buttonNum.ToString()] as Button).BackgroundImage = (Image)obj;
+            }
+        }  // Gizli altınları açan fonksiyon
+
         #endregion PlayerMechanics
 
         #region GlobalFunctions
@@ -291,7 +301,7 @@ namespace GoldHunterAIGame
             }
         } // Sonraki hamleyi gerçekleştiren fonksiyon
 
-        private void TurnTimer_Tick(object sender, EventArgs e)
+        private void TurnSystem()
         {
             if (MoveTimer.Enabled == false)
             {
@@ -311,8 +321,8 @@ namespace GoldHunterAIGame
                     TurnTimer.Stop();
                     Player winnerPlayer = playerList.Where(t => t.playerGold == playerList.Select(p => p.playerGold).Max()).FirstOrDefault();
                     ScoreBoard scr = new ScoreBoard(playerList);
-                    if(scr.ShowDialog()==DialogResult.Cancel)MessageBox.Show("girdi");
-                    
+                    if (scr.ShowDialog() == DialogResult.Cancel) MessageBox.Show("girdi");
+
                 }
                 else
                 {
@@ -327,7 +337,7 @@ namespace GoldHunterAIGame
                         FindNextTarget(player);
                         if (player.target != 0)
                         {
-                            player.playerGold -= findTargetCost[playerTurn - 1];                         
+                            player.playerGold -= findTargetCost[playerTurn - 1];
                             player.playerGold -= turnCost[playerTurn - 1];
                             player.spentGold += findTargetCost[playerTurn - 1] + turnCost[playerTurn - 1];
                             MoveTimer.Start();
@@ -350,8 +360,13 @@ namespace GoldHunterAIGame
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
                 }
             }
-        }   // Oyun sırasını hareketlendiren timer
+        } // Oyun sırasını belirleyen fonksiyon
 
+        private void TurnTimer_Tick(object sender, EventArgs e)
+        {
+            TurnSystem();
+        }   // Oyun sırasını hareketlendiren timer
+       
         private void MoveA_Tick(object sender, EventArgs e)
         {
             if (turnMoveTEMP == turnMoveMAX)
@@ -366,17 +381,6 @@ namespace GoldHunterAIGame
             }
         }  // Oyuncu hareketlerini sürdüren timer
 
-        private void OpenSecret(int buttonNum)
-        {
-            Gold getGold = goldList.Where(p => p.buttonNum == buttonNum && p.isTaken == false).FirstOrDefault();
-            if (getGold != null)
-            {
-                getGold.isSecret = false;
-                string img = "Secret" + getGold.value.ToString();
-                object obj = Properties.Resources.ResourceManager.GetObject(img);
-                (pnlBoard.Controls["btn" + buttonNum.ToString()] as Button).BackgroundImage = (Image)obj;
-            }
-        }  // Gizli altınları açan fonksiyon
 
         #endregion GameDynamics
 
@@ -389,6 +393,8 @@ namespace GoldHunterAIGame
             if (MoveTimer.Enabled == true) MoveTimer.Stop();
             if (TurnTimer.Enabled == true) TurnTimer.Stop();
             goldList.Clear();
+            playerList.Clear();
+            turnTimerControl.Text = " > ";
 
             int areaTotalSize = areaXSize * areaYSize;   // Oyun alanında ki toplam kare sayısı
             int cellWidth = Convert.ToInt32(Math.Floor(Convert.ToDouble(pnlBoard.Width) / areaXSize));  // Alandaki Bir karenin genişliği
@@ -532,6 +538,7 @@ namespace GoldHunterAIGame
         private void pnlBoard_Resize(object sender, EventArgs e)
         {
             CreateGame();
+
         }   // Oyun ekranının değişmesi durumunda oyunun tekrardan oluşması için gerekli trigger
 
         private void OnLoadEvents()
@@ -555,6 +562,96 @@ namespace GoldHunterAIGame
             goldCoin4.Parent = pictureBox2;
         } // Controllerin düzenlemeleri yapılıyor
 
+        private string FindXForTimer(int time)
+        {
+            string xType;
+
+            switch (time)
+            {
+                case 50:
+                    xType = "5X";
+                    break;
+                case 100:
+                    xType = "4X";
+                    break;
+                case 150:
+                    xType = "3X";
+                    break;
+                case 200:
+                    xType = "2X";
+                    break;
+                case 400:
+                    xType = "1X";
+                    break;
+                case 600:
+                    xType = "0.75X";
+                    break;
+                case 800:
+                    xType = "0.50X";
+                    break;
+                case 1000:
+                    xType = "0.25X";
+                    break;
+                default:
+                    xType = "1X";
+                    break;
+            }
+            return xType;
+        }  // Timer için x aranıyor
+
+        private void speedFaster_Click(object sender, EventArgs e)
+        {
+            if (TurnTimer.Interval > 200)
+            {
+                TurnTimer.Interval -= 200;
+                MoveTimer.Interval -= 200;
+
+            }
+            else if (TurnTimer.Interval > 50)
+            {
+                TurnTimer.Interval -= 50;
+                MoveTimer.Interval -= 50;
+
+            }
+            txtTimerSpeed.Text = FindXForTimer(TurnTimer.Interval);
+        } 
+
+        private void speedSlower_Click(object sender, EventArgs e)
+        {
+            if (TurnTimer.Interval < 1000 && TurnTimer.Interval >= 200)
+            {
+                TurnTimer.Interval += 200;
+                MoveTimer.Interval += 200;
+            }
+            else if (TurnTimer.Interval < 200)
+            {
+                TurnTimer.Interval += 50;
+                MoveTimer.Interval += 50;
+            }
+            txtTimerSpeed.Text = FindXForTimer(TurnTimer.Interval);
+        }
+
+        private void turnTimerControl_Click(object sender, EventArgs e)
+        {
+            if (turnTimerControl.Text == "| |")
+            {
+                TurnTimer.Stop();
+                turnTimerControl.Text = " > ";
+            }
+            else
+            {
+                TurnTimer.Start();
+                turnTimerControl.Text = "| |";
+            }
+
+        }
+
+        private void Game_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            parent.Close();
+        }
+
         #endregion InterfaceFunctions
+
     }
 }

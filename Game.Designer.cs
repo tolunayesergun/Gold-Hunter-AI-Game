@@ -51,10 +51,10 @@
             this.playerB = new System.Windows.Forms.Button();
             this.playerA = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.targetD = new System.Windows.Forms.TextBox();
-            this.targetC = new System.Windows.Forms.TextBox();
-            this.targetA = new System.Windows.Forms.TextBox();
-            this.targetB = new System.Windows.Forms.TextBox();
+            this.speedSlower = new System.Windows.Forms.Button();
+            this.speedFaster = new System.Windows.Forms.Button();
+            this.txtTimerSpeed = new System.Windows.Forms.Label();
+            this.turnTimerControl = new System.Windows.Forms.Button();
             this.pnlBoard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).BeginInit();
@@ -239,12 +239,12 @@
             // 
             // MoveTimer
             // 
-            this.MoveTimer.Interval = 20;
+            this.MoveTimer.Interval = 400;
             this.MoveTimer.Tick += new System.EventHandler(this.MoveA_Tick);
             // 
             // TurnTimer
             // 
-            this.TurnTimer.Interval = 20;
+            this.TurnTimer.Interval = 400;
             this.TurnTimer.Tick += new System.EventHandler(this.TurnTimer_Tick);
             // 
             // playerD
@@ -320,43 +320,61 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
-            // targetD
+            // speedSlower
             // 
-            this.targetD.Location = new System.Drawing.Point(1165, 12);
-            this.targetD.Name = "targetD";
-            this.targetD.Size = new System.Drawing.Size(58, 20);
-            this.targetD.TabIndex = 8;
+            this.speedSlower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.speedSlower.Location = new System.Drawing.Point(1018, 12);
+            this.speedSlower.Name = "speedSlower";
+            this.speedSlower.Size = new System.Drawing.Size(35, 23);
+            this.speedSlower.TabIndex = 12;
+            this.speedSlower.Text = "<";
+            this.speedSlower.UseVisualStyleBackColor = true;
+            this.speedSlower.Click += new System.EventHandler(this.speedSlower_Click);
             // 
-            // targetC
+            // speedFaster
             // 
-            this.targetC.Location = new System.Drawing.Point(1101, 12);
-            this.targetC.Name = "targetC";
-            this.targetC.Size = new System.Drawing.Size(58, 20);
-            this.targetC.TabIndex = 9;
+            this.speedFaster.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.speedFaster.Location = new System.Drawing.Point(1133, 13);
+            this.speedFaster.Name = "speedFaster";
+            this.speedFaster.Size = new System.Drawing.Size(36, 23);
+            this.speedFaster.TabIndex = 13;
+            this.speedFaster.Text = ">";
+            this.speedFaster.UseVisualStyleBackColor = true;
+            this.speedFaster.Click += new System.EventHandler(this.speedFaster_Click);
             // 
-            // targetA
+            // txtTimerSpeed
             // 
-            this.targetA.Location = new System.Drawing.Point(973, 12);
-            this.targetA.Name = "targetA";
-            this.targetA.Size = new System.Drawing.Size(58, 20);
-            this.targetA.TabIndex = 11;
+            this.txtTimerSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTimerSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.txtTimerSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtTimerSpeed.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.txtTimerSpeed.Location = new System.Drawing.Point(1059, 12);
+            this.txtTimerSpeed.Name = "txtTimerSpeed";
+            this.txtTimerSpeed.Size = new System.Drawing.Size(68, 24);
+            this.txtTimerSpeed.TabIndex = 20;
+            this.txtTimerSpeed.Text = "1X";
+            this.txtTimerSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // targetB
+            // turnTimerControl
             // 
-            this.targetB.Location = new System.Drawing.Point(1037, 12);
-            this.targetB.Name = "targetB";
-            this.targetB.Size = new System.Drawing.Size(58, 20);
-            this.targetB.TabIndex = 10;
+            this.turnTimerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.turnTimerControl.Location = new System.Drawing.Point(1077, 48);
+            this.turnTimerControl.Name = "turnTimerControl";
+            this.turnTimerControl.Size = new System.Drawing.Size(35, 23);
+            this.turnTimerControl.TabIndex = 21;
+            this.turnTimerControl.Text = "| |";
+            this.turnTimerControl.UseVisualStyleBackColor = true;
+            this.turnTimerControl.Click += new System.EventHandler(this.turnTimerControl_Click);
             // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1235, 714);
-            this.Controls.Add(this.targetA);
-            this.Controls.Add(this.targetB);
-            this.Controls.Add(this.targetC);
-            this.Controls.Add(this.targetD);
+            this.Controls.Add(this.turnTimerControl);
+            this.Controls.Add(this.txtTimerSpeed);
+            this.Controls.Add(this.speedFaster);
+            this.Controls.Add(this.speedSlower);
             this.Controls.Add(this.playerD);
             this.Controls.Add(this.playerC);
             this.Controls.Add(this.playerB);
@@ -367,6 +385,7 @@
             this.Name = "Game";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gold Hunter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Game_FormClosing);
             this.Load += new System.EventHandler(this.Game_Load);
             this.pnlBoard.ResumeLayout(false);
             this.pnlBoard.PerformLayout();
@@ -377,7 +396,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -404,9 +422,9 @@
         private System.Windows.Forms.PictureBox goldCoin4;
         private System.Windows.Forms.PictureBox goldCoin3;
         private System.Windows.Forms.PictureBox goldCoin2;
-        private System.Windows.Forms.TextBox targetD;
-        private System.Windows.Forms.TextBox targetC;
-        private System.Windows.Forms.TextBox targetA;
-        private System.Windows.Forms.TextBox targetB;
+        private System.Windows.Forms.Button speedSlower;
+        private System.Windows.Forms.Button speedFaster;
+        private System.Windows.Forms.Label txtTimerSpeed;
+        private System.Windows.Forms.Button turnTimerControl;
     }
 }

@@ -185,6 +185,12 @@
   <ItemGroup>
     <None Include="Resources\scoreBoardBG.png" />
     <None Include="Resources\scoreBoardBG1.png" />
+    <None Include="Resources\iBG.jpg" />
+    <None Include="Resources\iBG.png" />
+    <None Include="Resources\InterfaceBG.png" />
+    <None Include="Resources\playBTN.png" />
+    <None Include="Resources\btnPlay.png" />
+    <None Include="Resources\btnAyarlar.png" />
     <Content Include="SecretGold.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

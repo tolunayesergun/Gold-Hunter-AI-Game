@@ -121,6 +121,9 @@
   <data name="Secret20" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Secret20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="iBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\iBG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="miner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\miner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -130,6 +133,9 @@
   <data name="Dirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Dirt.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="iBG1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\iBG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="GameBG1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GameBG2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -138,6 +144,12 @@
   </data>
   <data name="Gold10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Gold10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playBTN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playBTN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InterfaceBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InterfaceBG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="goldCoin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\goldCoin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,7 +169,13 @@
   <data name="Secret15" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Secret15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="btnPlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnPlay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SecretGold" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SecretGold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btnAyarlar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnAyarlar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
