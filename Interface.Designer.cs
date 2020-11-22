@@ -511,7 +511,7 @@
             this.txtAreaY.Name = "txtAreaY";
             this.txtAreaY.Size = new System.Drawing.Size(100, 26);
             this.txtAreaY.TabIndex = 6;
-            this.txtAreaY.Text = "10";
+            this.txtAreaY.Text = "20";
             this.txtAreaY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtAreaY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAreaX_KeyPress);
             // 
@@ -522,7 +522,7 @@
             this.txtAreaX.Name = "txtAreaX";
             this.txtAreaX.Size = new System.Drawing.Size(100, 26);
             this.txtAreaX.TabIndex = 5;
-            this.txtAreaX.Text = "10";
+            this.txtAreaX.Text = "20";
             this.txtAreaX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtAreaX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAreaX_KeyPress);
             // 

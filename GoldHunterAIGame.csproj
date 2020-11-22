@@ -192,6 +192,12 @@
     <None Include="Resources\playBTN.png" />
     <None Include="Resources\btnPlay.png" />
     <None Include="Resources\btnAyarlar.png" />
+    <None Include="Resources\btnHome.png" />
+    <None Include="Resources\btnReplay.png" />
+    <None Include="Resources\buttonSkip.png" />
+    <None Include="Resources\buttonLeftSkip.png" />
+    <None Include="Resources\pauseButton.png" />
+    <None Include="Resources\playButton.png" />
     <Content Include="SecretGold.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

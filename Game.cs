@@ -28,7 +28,7 @@ namespace GoldHunterAIGame
 
         private readonly Random rnd = new Random(); // Random sayı üretmemiz için gerekli instance
         private readonly Form parent; // Parent Formu tutan değişken
-        private readonly SettingsModel _get;
+        private readonly SettingsModel _get;  // Settings objemiz
 
         public static int areaXSize;   // Oyunda ki bir satırda ki kare sayısı
         public static int areaYSize;   // Oyunda ki bir stunda ki kare sayısı
@@ -404,8 +404,8 @@ namespace GoldHunterAIGame
             if (TurnTimer.Enabled == true) TurnTimer.Stop();
             goldList.Clear();
             playerList.Clear();
-            turnTimerControl.Text = " > ";
-
+            btnPlayStop.AccessibleName = "2";
+            btnPlayStop.Image = Properties.Resources.playButton;
             turnMoveTEMP = 1;
             playerTurn = 1;
             countLivePlayers = 4;
@@ -574,6 +574,11 @@ namespace GoldHunterAIGame
             goldCoin2.Parent = pictureBox2;
             goldCoin3.Parent = pictureBox2;
             goldCoin4.Parent = pictureBox2;
+
+            txtTimerSpeed.Parent = pictureBox2;
+            btnSpeedFaster.Parent = pictureBox2;
+            btnSpeedSlower.Parent = pictureBox2;
+            btnPlayStop.Parent = pictureBox2;
         } // Controllerin düzenlemeleri yapılıyor
 
         private string FindXForTimer(int time)
@@ -628,7 +633,7 @@ namespace GoldHunterAIGame
 
             }
             txtTimerSpeed.Text = FindXForTimer(TurnTimer.Interval);
-        } 
+        }   // Timerları hızlandırma işlemini gerçekleştiren buton
 
         private void speedSlower_Click(object sender, EventArgs e)
         {
@@ -643,35 +648,62 @@ namespace GoldHunterAIGame
                 MoveTimer.Interval += 50;
             }
             txtTimerSpeed.Text = FindXForTimer(TurnTimer.Interval);
-        }
+        }   // Timerları yavaşlatma işlemini gerçekleştiren buton
 
         private void turnTimerControl_Click(object sender, EventArgs e)
         {
-            if (turnTimerControl.Text == "| |")
+            if (btnPlayStop.AccessibleName == "1")
             {
                 TurnTimer.Stop();
-                turnTimerControl.Text = " > ";
+                btnPlayStop.AccessibleName = "2";
+                btnPlayStop.Image= Properties.Resources.playButton;
             }
             else
             {
                 TurnTimer.Start();
-                turnTimerControl.Text = "| |";
+                btnPlayStop.AccessibleName = "1";
+                btnPlayStop.Image = Properties.Resources.pauseButton;
             }
 
-        }
+        }  // Timerları durdurup , başlatma işlemini gerçekleştiren buton
 
         private void Game_FormClosing(object sender, FormClosingEventArgs e)
         {
             parent.Close();
-        }
+        }  // Form kapandığında programın kapanmasını sağlayan event.
+
+        private void btnHomeClick(object sender, EventArgs e)
+        {
+            parent.Show();
+            this.Hide();
+            CreateGame();
+        }  // Ana forma dönmemizi sağlayan buton
+
+        private void btnReplay_Click(object sender, EventArgs e)
+        {
+            CreateGame();
+        } // Oyunu tekrardan başlatan buton
+
+        private void btn_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pcr = (PictureBox)sender;
+            pcr.Size = new Size(60, 60);
+            if (pcr.AccessibleDescription == "1") pcr.Location = new Point(142, 255);
+            else if (pcr.AccessibleDescription == "2") pcr.Location = new Point(209, 255);
+            else pcr.Location = new Point(275, 255);
+
+        } // Pictureboxlara buton görünümü vermemizi sağlayan event
+
+        private void btn_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox pcr = (PictureBox)sender;
+            pcr.Size = new Size(70, 70);
+            if (pcr.AccessibleDescription == "1") pcr.Location = new Point(137, 250);
+            else if (pcr.AccessibleDescription == "2") pcr.Location = new Point(204, 250);
+            else  pcr.Location = new Point(270, 250);
+        } // Pictureboxlara buton görünümü vermemizi sağlayan event
 
         #endregion InterfaceFunctions
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            CreateGame();
-            parent.Show();
-            this.Hide();
-        }
     }
 }
