@@ -43,7 +43,7 @@ namespace GoldHunterAIGame
             winnerPlayerButton.Text = winnerPlayer.playerName;
             winnerPlayerButton.BackColor = (pictureBox1.Controls["btnPlayer" + winnerPlayer.playerName] as Button).BackColor;
             winnerPlayerButton.ForeColor = (pictureBox1.Controls["btnPlayer" + winnerPlayer.playerName] as Button).ForeColor;
-        }
+        } // Panel ilk yüklenirken çalışan fonksiyonlar
 
         private void WriteLabels(Player playerA, Player playerB, Player playerC, Player playerD)
         {
@@ -66,7 +66,7 @@ namespace GoldHunterAIGame
             txtCollectedGoldB.Text = playerB.collectedGold.ToString();
             txtCollectedGoldC.Text = playerC.collectedGold.ToString();
             txtCollectedGoldD.Text = playerD.collectedGold.ToString();
-        }
+        } // panelde ki label leri dolduran fonksiyon
 
         private void InstanceDock()
         {
@@ -105,12 +105,12 @@ namespace GoldHunterAIGame
             txtCollectedGoldB.Parent = pictureBox1;
             txtCollectedGoldC.Parent = pictureBox1;
             txtCollectedGoldD.Parent = pictureBox1;
-        }
+        }  // parent işlemlerini gerçekleştiren fonksiyon
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
-        }
+        } // paneli kapatan butonun fonksiyonu
     }
 }

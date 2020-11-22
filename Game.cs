@@ -10,20 +10,13 @@ namespace GoldHunterAIGame
 {
     public partial class Game : Form
     {
-        public Game(Form _interface,SettingsModel get)
+        public Game(Form _interface, SettingsModel get)
         {
             InitializeComponent();
             parent = _interface;
             _get = get;
         }
-       
 
-        private void Game_Load(object sender, EventArgs e)
-        {
-            SetStatics();
-            CreateGame();
-            OnLoadEvents();
-        }
 
         #region Entities
 
@@ -233,6 +226,30 @@ namespace GoldHunterAIGame
             return nextValue;
         }  //Rastegele değer üreten fonksiyon (5-20) arası
 
+        public void WriteText()
+        {
+            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/PlayLogs")) Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/PlayLogs");
+            string filePath = AppDomain.CurrentDomain.BaseDirectory + "/PlayLogs/" + "Game.txt";
+            FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+
+            StreamWriter streamWriter = new StreamWriter(fileStream);
+
+            foreach (var item in gameLogs)
+            {
+                streamWriter.WriteLine(item);
+            }
+
+            streamWriter.Flush();
+
+            streamWriter.Close();
+            fileStream.Close();
+        }   // Logları text dosyasına basan fonksiyon
+
+        public void addLog(string text)
+        {
+            gameLogs.Add((++logNum) + " - " + text);
+        }  // Gelen stringleri log listesine ekleyen fonksiyon
+
         #endregion GlobalFunctions
 
         #region GameDynamics
@@ -290,7 +307,7 @@ namespace GoldHunterAIGame
             if (player.buttonNum == player.target)
             {
                 playerTurn++;
-                MoveTimer.Stop();               
+                MoveTimer.Stop();
                 Gold takenGold = goldList.Where(p => p.buttonNum == player.target).SingleOrDefault();
                 addLog(player.playerName + " Oyuncusu kare numarası " + player.target + " olan hedefine ulaştı ve " + takenGold.value + " altın kazanadı ");
                 takenGold.isTaken = true;
@@ -299,12 +316,11 @@ namespace GoldHunterAIGame
                 foreach (var item in playerLoseTargetList)
                 {
                     item.target = 0;
-                   if(item.playerdID!=player.playerdID)addLog(player.playerName + " Oyuncusu " + item.playerName + " oyuncusunun hedefini çaldı");
+                    if (item.playerdID != player.playerdID) addLog(player.playerName + " Oyuncusu " + item.playerName + " oyuncusunun hedefini çaldı");
                 }
                 player.playerGold += takenGold.value;
                 player.collectedGold += takenGold.value;
                 (pictureBox2.Controls["textPlayer" + player.playerName + "Coin"] as Label).Text = player.playerGold.ToString();
-
             }
         } // Sonraki hamleyi gerçekleştiren fonksiyon
 
@@ -329,8 +345,7 @@ namespace GoldHunterAIGame
                     Player winnerPlayer = playerList.Where(t => t.playerGold == playerList.Select(p => p.playerGold).Max()).FirstOrDefault();
                     ScoreBoard scr = new ScoreBoard(playerList);
                     scr.ShowDialog();
-                    WriteToFile();
-
+                    WriteText();
                 }
                 else
                 {
@@ -341,13 +356,13 @@ namespace GoldHunterAIGame
                         addLog(player.playerName + " Oyuncusu hamle yapmak için " + turnCost[player.playerdID - 1] + " Altın ödedi");
                         MoveTimer.Start();
                     }
-                    else if (player.target == 0 && player.playerGold >= findTargetCost[playerTurn - 1])
+                    else if (player.target == 0 && player.playerGold >= findTargetCost[playerTurn - 1] && player.playerGold > turnCost[playerTurn - 1])
                     {
                         FindNextTarget(player);
                         if (player.target != 0)
                         {
                             addLog(player.playerName + " Oyuncusu hedef olarak " + player.target + ". kareyi belirledi ve bunun için " + turnCost[player.playerdID - 1] + " Altın Harcadı ");
-                            addLog(player.playerName + " Oyuncusu hamle yapmak için "+ turnCost[player.playerdID-1] + " Altın ödedi");
+                            addLog(player.playerName + " Oyuncusu hamle yapmak için " + turnCost[player.playerdID - 1] + " Altın ödedi");
                             player.playerGold -= findTargetCost[playerTurn - 1];
                             player.playerGold -= turnCost[playerTurn - 1];
                             player.spentGold += findTargetCost[playerTurn - 1] + turnCost[playerTurn - 1];
@@ -363,6 +378,7 @@ namespace GoldHunterAIGame
                         if (player.stat == 5)
                         {
                             player.stat = countLivePlayers;
+                            addLog(player.playerName + " Oyuncusunun oynamak için yeterli altını kalmadı ve oyunu " + player.stat + ". olarak tamamladı");
                             countLivePlayers--;
                         }
                         playerTurn++;
@@ -377,7 +393,7 @@ namespace GoldHunterAIGame
         {
             TurnSystem();
         }   // Oyun sırasını hareketlendiren timer
-       
+
         private void MoveA_Tick(object sender, EventArgs e)
         {
             if (turnMoveTEMP == turnMoveMAX)
@@ -392,10 +408,16 @@ namespace GoldHunterAIGame
             }
         }  // Oyuncu hareketlerini sürdüren timer
 
-
         #endregion GameDynamics
 
         #region InterfaceFunctions
+
+        private void Game_Load(object sender, EventArgs e)
+        {
+            SetStatics();
+            CreateGame();
+            OnLoadEvents();
+        } // Oyun ilk yükleme ekranında çalışan fonksiyonlar
 
         private void SetStatics()
         {
@@ -407,7 +429,6 @@ namespace GoldHunterAIGame
             playerTotalGold = _get.playerTotalGold;
             turnCost = _get.turnCost;
             findTargetCost = _get.findTargetCost;
-
         }  // Static değişkenler bu fonksiyonda set ediliyor.
 
         private void CreateGame()
@@ -424,6 +445,10 @@ namespace GoldHunterAIGame
             playerTurn = 1;
             countLivePlayers = 4;
             logNum = 0;
+            textPlayerACoin.Text = "200";
+            textPlayerBCoin.Text = "200";
+            textPlayerCCoin.Text = "200";
+            textPlayerDCoin.Text = "200";
 
             int areaTotalSize = areaXSize * areaYSize;   // Oyun alanında ki toplam kare sayısı
             int cellWidth = Convert.ToInt32(Math.Floor(Convert.ToDouble(pnlBoard.Width) / areaXSize));  // Alandaki Bir karenin genişliği
@@ -434,11 +459,8 @@ namespace GoldHunterAIGame
             int playerCFirstSpawn = areaTotalSize;
             int playerDFirstSpawn = areaTotalSize - (areaXSize - 1);
 
-            //Altınlar için rasgele yer türetiyoruz.
             GenerateGolds(areaTotalSize, playerAFirstSpawn, playerBFirstSpawn, playerCFirstSpawn, playerDFirstSpawn);
-
             GenerateMap(areaTotalSize, cellWidth, cellHeight);
-
             GeneratePlayers(cellWidth, cellHeight, playerAFirstSpawn, playerBFirstSpawn, playerCFirstSpawn, playerDFirstSpawn);
         }    // Oyunu oluşturan fonksiyon
 
@@ -498,7 +520,7 @@ namespace GoldHunterAIGame
             playerA.Size = new System.Drawing.Size(cellWidth, cellHeight);
             playerA.Location = (pnlBoard.Controls["btn" + playerAFirstSpawn.ToString()] as Button).Location;
             playerA.AccessibleName = playerAFirstSpawn.ToString();
-            playerList.Add(new Player { playerdID = 1, playerName = "A", playerLocation = FindCordinant(playerAFirstSpawn), playerGold = playerTotalGold, buttonNum = playerAFirstSpawn, playerButtonName = "btn" + playerAFirstSpawn.ToString(), target = 0, stat = 5,collectedGold=0,spentGold=0,StepCount=0 });
+            playerList.Add(new Player { playerdID = 1, playerName = "A", playerLocation = FindCordinant(playerAFirstSpawn), playerGold = playerTotalGold, buttonNum = playerAFirstSpawn, playerButtonName = "btn" + playerAFirstSpawn.ToString(), target = 0, stat = 5, collectedGold = 0, spentGold = 0, StepCount = 0 });
 
             pnlBoard.Controls.Add(playerB);
             playerB.BringToFront();
@@ -567,7 +589,6 @@ namespace GoldHunterAIGame
         private void pnlBoard_Resize(object sender, EventArgs e)
         {
             CreateGame();
-
         }   // Oyun ekranının değişmesi durumunda oyunun tekrardan oluşması için gerekli trigger
 
         private void OnLoadEvents()
@@ -605,27 +626,35 @@ namespace GoldHunterAIGame
                 case 50:
                     xType = "5X";
                     break;
+
                 case 100:
                     xType = "4X";
                     break;
+
                 case 150:
                     xType = "3X";
                     break;
+
                 case 200:
                     xType = "2X";
                     break;
+
                 case 400:
                     xType = "1X";
                     break;
+
                 case 600:
                     xType = "0.75X";
                     break;
+
                 case 800:
                     xType = "0.50X";
                     break;
+
                 case 1000:
                     xType = "0.25X";
                     break;
+
                 default:
                     xType = "1X";
                     break;
@@ -639,13 +668,11 @@ namespace GoldHunterAIGame
             {
                 TurnTimer.Interval -= 200;
                 MoveTimer.Interval -= 200;
-
             }
             else if (TurnTimer.Interval > 50)
             {
                 TurnTimer.Interval -= 50;
                 MoveTimer.Interval -= 50;
-
             }
             txtTimerSpeed.Text = FindXForTimer(TurnTimer.Interval);
         }   // Timerları hızlandırma işlemini gerçekleştiren buton
@@ -671,7 +698,7 @@ namespace GoldHunterAIGame
             {
                 TurnTimer.Stop();
                 btnPlayStop.AccessibleName = "2";
-                btnPlayStop.Image= Properties.Resources.playButton;
+                btnPlayStop.Image = Properties.Resources.playButton;
             }
             else
             {
@@ -679,7 +706,6 @@ namespace GoldHunterAIGame
                 btnPlayStop.AccessibleName = "1";
                 btnPlayStop.Image = Properties.Resources.pauseButton;
             }
-
         }  // Timerları durdurup , başlatma işlemini gerçekleştiren buton
 
         private void Game_FormClosing(object sender, FormClosingEventArgs e)
@@ -706,7 +732,6 @@ namespace GoldHunterAIGame
             if (pcr.AccessibleDescription == "1") pcr.Location = new Point(142, 241);
             else if (pcr.AccessibleDescription == "2") pcr.Location = new Point(209, 241);
             else pcr.Location = new Point(275, 241);
-
         } // Pictureboxlara buton görünümü vermemizi sağlayan event
 
         private void btn_MouseEnter(object sender, EventArgs e)
@@ -715,36 +740,9 @@ namespace GoldHunterAIGame
             pcr.Size = new Size(70, 70);
             if (pcr.AccessibleDescription == "1") pcr.Location = new Point(137, 236);
             else if (pcr.AccessibleDescription == "2") pcr.Location = new Point(204, 236);
-            else  pcr.Location = new Point(270, 236);
+            else pcr.Location = new Point(270, 236);
         } // Pictureboxlara buton görünümü vermemizi sağlayan event
 
         #endregion InterfaceFunctions
-
-
-        public void WriteToFile()
-        {
-
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/PlayLogs"))Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/PlayLogs");
-            string filePath = AppDomain.CurrentDomain.BaseDirectory + "/PlayLogs/" + "Game.txt";
-            FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-
-            StreamWriter streamWriter = new StreamWriter(fileStream);
-
-            foreach (var item in gameLogs)
-            {
-                streamWriter.WriteLine(item);
-            }
-
-            streamWriter.Flush();
-
-            streamWriter.Close();
-            fileStream.Close();
-        }
-
-        public void addLog(string text)
-        {
-            gameLogs.Add((++logNum) + " - " + text);
-        }
-
     }
 }

@@ -40,7 +40,7 @@ namespace GoldHunterAIGame
             Game newGame = new Game(this,set);
             newGame.Show();
             this.Hide();
-        }
+        }  // Ayarları bir modele atıp modeli game formuna yollayıp oyunu başlatan fonksiyon
 
         private void btnStartGame_MouseLeave(object sender, EventArgs e)
         {
@@ -48,7 +48,7 @@ namespace GoldHunterAIGame
             pcr.Size = new Size(285, 75);
             if (pcr.AccessibleName == "1") pcr.Location = new Point(483, 352);
             else pcr.Location = new Point(483, 445);
-        }
+        }  // Pictureboxlara buton görünümü kazandıran event
 
         private void btnStartGame_MouseEnter(object sender, EventArgs e)
         {
@@ -56,25 +56,25 @@ namespace GoldHunterAIGame
             pcr.Size = new Size(295, 85);
             if (pcr.AccessibleName == "1") pcr.Location = new Point(478, 347);
             else pcr.Location = new Point(478, 440);
-        }
+        }  // Pictureboxlara buton görünümü kazandıran event
 
         private void btnAyarlar_Click(object sender, EventArgs e)
         {
             settingsPanel.Visible = true;
-        }
+        }  // Ayarlar panelini görünür kılan butonun eventi
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             settingsPanel.Visible = false;
-        }
+        }  // Ayarlar panelini kapatan butonun eventi
 
         private void txtAreaX_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
-            }
+            }  
 
-        }
+        }  // Textboxlara sadece numara girilmesini sağlayan event
     }
 }
