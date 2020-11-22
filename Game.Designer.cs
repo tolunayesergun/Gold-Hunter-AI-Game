@@ -208,11 +208,11 @@
             // 
             this.txtTimerSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTimerSpeed.BackColor = System.Drawing.Color.Transparent;
-            this.txtTimerSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtTimerSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.txtTimerSpeed.ForeColor = System.Drawing.Color.Gold;
-            this.txtTimerSpeed.Location = new System.Drawing.Point(202, 322);
+            this.txtTimerSpeed.Location = new System.Drawing.Point(202, 312);
             this.txtTimerSpeed.Name = "txtTimerSpeed";
-            this.txtTimerSpeed.Size = new System.Drawing.Size(68, 24);
+            this.txtTimerSpeed.Size = new System.Drawing.Size(71, 26);
             this.txtTimerSpeed.TabIndex = 20;
             this.txtTimerSpeed.Text = "1X";
             this.txtTimerSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -310,7 +310,7 @@
             // 
             this.btnSpeedSlower.AccessibleDescription = "1";
             this.btnSpeedSlower.Image = global::GoldHunterAIGame.Properties.Resources.buttonLeftSkip;
-            this.btnSpeedSlower.Location = new System.Drawing.Point(142, 255);
+            this.btnSpeedSlower.Location = new System.Drawing.Point(142, 241);
             this.btnSpeedSlower.Name = "btnSpeedSlower";
             this.btnSpeedSlower.Size = new System.Drawing.Size(60, 60);
             this.btnSpeedSlower.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -324,7 +324,7 @@
             // 
             this.btnPlayStop.AccessibleDescription = "2";
             this.btnPlayStop.Image = global::GoldHunterAIGame.Properties.Resources.playButton;
-            this.btnPlayStop.Location = new System.Drawing.Point(209, 255);
+            this.btnPlayStop.Location = new System.Drawing.Point(209, 241);
             this.btnPlayStop.Name = "btnPlayStop";
             this.btnPlayStop.Size = new System.Drawing.Size(60, 60);
             this.btnPlayStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -338,7 +338,7 @@
             // 
             this.btnSpeedFaster.AccessibleDescription = "3";
             this.btnSpeedFaster.Image = global::GoldHunterAIGame.Properties.Resources.buttonSkip;
-            this.btnSpeedFaster.Location = new System.Drawing.Point(275, 255);
+            this.btnSpeedFaster.Location = new System.Drawing.Point(275, 241);
             this.btnSpeedFaster.Name = "btnSpeedFaster";
             this.btnSpeedFaster.Size = new System.Drawing.Size(60, 60);
             this.btnSpeedFaster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
