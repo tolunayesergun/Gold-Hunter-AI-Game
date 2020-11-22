@@ -55,6 +55,7 @@
     <Compile Include="CustomTextBox.Designer.cs">
       <DependentUpon>CustomTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="ScoreBoard.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -9,36 +9,39 @@ namespace GoldHunterAIGame
 {
     public partial class Game : Form
     {
-        public Game(Form _interface)
+        public Game(Form _interface,SettingsModel get)
         {
             InitializeComponent();
             parent = _interface;
+            _get = get;
         }
        
 
         private void Game_Load(object sender, EventArgs e)
         {
+            SetStatics();
             CreateGame();
             OnLoadEvents();
-            TurnTimer.Start();
         }
 
         #region Entities
 
         private readonly Random rnd = new Random(); // Random sayı üretmemiz için gerekli instance
         private readonly Form parent; // Parent Formu tutan değişken
-        public static int areaXSize = 10;   // Oyunda ki bir satırda ki kare sayısı
-        public static int areaYSize = 10;   // Oyunda ki bir stunda ki kare sayısı
-        public static int goldRate = 20;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
-        public static int secretGoldRate = 10;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
-        public static int turnMoveMAX = 4;  // Bir oyuncunun max hamle sayısını tutan statik değişken
-        public static int playerTotalGold = 200; // Oyuncuların toplam altın sayısı
-        public static int[] turnCost = { 5, 5, 5, 5 };  // Oyuncuların hamle maliyeti
-        public static int[] findTargetCost = { 5, 10, 15, 20 };  // Oyuncuların hedef seçme maliyeti
+        private readonly SettingsModel _get;
 
-        public static int turnMoveTEMP = 1;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
-        public static int playerTurn = 1;  // Sıranın hangi oyuncuda olduğunu tutuyor.
-        public static int countLivePlayers = 4;  // Elenmemiş oyuncuların sayısı
+        public static int areaXSize;   // Oyunda ki bir satırda ki kare sayısı
+        public static int areaYSize;   // Oyunda ki bir stunda ki kare sayısı
+        public static int goldRate;    // Oyunda ki karelin % kaçının altın olduğunu tutan statik değişken
+        public static int secretGoldRate;  // Oyunda ki karelin % kaçının gizli altın olduğunu tutan statik değişken
+        public static int turnMoveMAX;  // Bir oyuncunun max hamle sayısını tutan statik değişken
+        public static int playerTotalGold; // Oyuncuların toplam altın sayısı
+        public static int[] turnCost;  // Oyuncuların hamle maliyeti
+        public static int[] findTargetCost;  // Oyuncuların hedef seçme maliyeti
+
+        public static int turnMoveTEMP;     // Sırası gelen oyuncunun hamle sayısını tutan temp değişken
+        public static int playerTurn;  // Sıranın hangi oyuncuda olduğunu tutuyor.
+        public static int countLivePlayers;  // Elenmemiş oyuncuların sayısı
 
         private readonly List<Player> playerList = new List<Player>();  // Oyuncuların dinamik listesi
         private readonly List<Gold> goldList = new List<Gold>(); // Oyunda ki altınların bilgilerinin tutulduğu liste
@@ -207,12 +210,6 @@ namespace GoldHunterAIGame
         #endregion PlayerMechanics
 
         #region GlobalFunctions
-
-        //private int FindButtonNumber(Cordinant map)
-        //{
-        //    int result = ((map.row - 1) * areaXSize + map.column);
-        //    return result;
-        //}   // satır ve stun bilgisi verilen butonun Numarasını veriyor.
 
         private Cordinant FindCordinant(int buttonNumber)
         {
@@ -386,6 +383,19 @@ namespace GoldHunterAIGame
 
         #region InterfaceFunctions
 
+        private void SetStatics()
+        {
+            areaXSize = _get.areaXSize;
+            areaYSize = _get.areaYSize;
+            goldRate = _get.goldRate;
+            secretGoldRate = _get.secretGoldRate;
+            turnMoveMAX = _get.turnMoveMAX + 1;
+            playerTotalGold = _get.playerTotalGold;
+            turnCost = _get.turnCost;
+            findTargetCost = _get.findTargetCost;
+
+        }  // Static değişkenler bu fonksiyonda set ediliyor.
+
         private void CreateGame()
         {
             pnlBoard.Controls.Clear();
@@ -395,6 +405,10 @@ namespace GoldHunterAIGame
             goldList.Clear();
             playerList.Clear();
             turnTimerControl.Text = " > ";
+
+            turnMoveTEMP = 1;
+            playerTurn = 1;
+            countLivePlayers = 4;
 
             int areaTotalSize = areaXSize * areaYSize;   // Oyun alanında ki toplam kare sayısı
             int cellWidth = Convert.ToInt32(Math.Floor(Convert.ToDouble(pnlBoard.Width) / areaXSize));  // Alandaki Bir karenin genişliği
@@ -653,5 +667,11 @@ namespace GoldHunterAIGame
 
         #endregion InterfaceFunctions
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CreateGame();
+            parent.Show();
+            this.Hide();
+        }
     }
 }

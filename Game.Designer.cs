@@ -55,6 +55,7 @@
             this.speedFaster = new System.Windows.Forms.Button();
             this.txtTimerSpeed = new System.Windows.Forms.Label();
             this.turnTimerControl = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.pnlBoard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.goldCoin3)).BeginInit();
@@ -366,11 +367,22 @@
             this.turnTimerControl.UseVisualStyleBackColor = true;
             this.turnTimerControl.Click += new System.EventHandler(this.turnTimerControl_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1148, 62);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1235, 714);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.turnTimerControl);
             this.Controls.Add(this.txtTimerSpeed);
             this.Controls.Add(this.speedFaster);
@@ -426,5 +438,6 @@
         private System.Windows.Forms.Button speedFaster;
         private System.Windows.Forms.Label txtTimerSpeed;
         private System.Windows.Forms.Button turnTimerControl;
+        private System.Windows.Forms.Button button1;
     }
 }
